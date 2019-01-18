@@ -1,0 +1,247 @@
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_mm_interconnect_9:mm_interconnect_9|altera_merlin_burst_adapter:pcie_txs_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter|state
+Name state.ST_IDLE state.ST_UNCOMP_WR_SUBBURST state.ST_UNCOMP_TRANS state.ST_COMP_TRANS 
+state.ST_IDLE 0 0 0 0 
+state.ST_COMP_TRANS 1 0 0 1 
+state.ST_UNCOMP_TRANS 1 0 1 0 
+state.ST_UNCOMP_WR_SUBBURST 1 1 0 0 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_mm_interconnect_8:mm_interconnect_8|altera_merlin_burst_adapter:pipe_stage_host_ctrl_s0_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter|state
+Name state.ST_IDLE state.ST_UNCOMP_WR_SUBBURST state.ST_UNCOMP_TRANS state.ST_COMP_TRANS 
+state.ST_IDLE 0 0 0 0 
+state.ST_COMP_TRANS 1 0 0 1 
+state.ST_UNCOMP_TRANS 1 0 1 0 
+state.ST_UNCOMP_WR_SUBBURST 1 1 0 0 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_mm_interconnect_7:mm_interconnect_7|altera_merlin_burst_adapter:em_pc_1_avl_in_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter|state
+Name state.ST_IDLE state.ST_UNCOMP_WR_SUBBURST state.ST_UNCOMP_TRANS state.ST_COMP_TRANS 
+state.ST_IDLE 0 0 0 0 
+state.ST_COMP_TRANS 1 0 0 1 
+state.ST_UNCOMP_TRANS 1 0 1 0 
+state.ST_UNCOMP_WR_SUBBURST 1 1 0 0 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_mm_interconnect_5:mm_interconnect_5|altera_merlin_burst_adapter:em_pc_0_avl_in_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter|state
+Name state.ST_IDLE state.ST_UNCOMP_WR_SUBBURST state.ST_UNCOMP_TRANS state.ST_COMP_TRANS 
+state.ST_IDLE 0 0 0 0 
+state.ST_COMP_TRANS 1 0 0 1 
+state.ST_UNCOMP_TRANS 1 0 1 0 
+state.ST_UNCOMP_WR_SUBBURST 1 1 0 0 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_em_pc_0:em_pc_1|em_top_ms:em_pc_core_0|em_single_top:e1|em_rdlat_fsm:em_rdlat_fsm|scfifo:rdlat_scfifo|a_fffifo:subfifo|a_fefifo:fifo_state|sm_emptyfull
+Name state_middle state_full state_empty 
+state_empty 0 0 0 
+state_middle 1 0 1 
+state_full 0 1 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_em_pc_0:em_pc_1|em_top_ms:em_pc_core_0|em_single_top:e0|em_rdlat_fsm:em_rdlat_fsm|scfifo:rdlat_scfifo|a_fffifo:subfifo|a_fefifo:fifo_state|sm_emptyfull
+Name state_middle state_full state_empty 
+state_empty 0 0 0 
+state_middle 1 0 1 
+state_full 0 1 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_em_pc_0:em_pc_0|em_top_ms:em_pc_core_0|em_single_top:e1|em_rdlat_fsm:em_rdlat_fsm|scfifo:rdlat_scfifo|a_fffifo:subfifo|a_fefifo:fifo_state|sm_emptyfull
+Name state_middle state_full state_empty 
+state_empty 0 0 0 
+state_middle 1 0 1 
+state_full 0 1 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_em_pc_0:em_pc_0|em_top_ms:em_pc_core_0|em_single_top:e0|em_rdlat_fsm:em_rdlat_fsm|scfifo:rdlat_scfifo|a_fffifo:subfifo|a_fefifo:fifo_state|sm_emptyfull
+Name state_middle state_full state_empty 
+state_empty 0 0 0 
+state_middle 1 0 1 
+state_full 0 1 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_acl_kernel_clk:acl_kernel_clk|altera_pll_reconfig_top:pll_reconfig_0|altera_pll_reconfig_core:NM28_reconfig.reconfig_core.altera_pll_reconfig_core_inst0|current_read_state
+Name current_read_state.READ_POST_WAIT current_read_state.READ current_read_state.READ_WAIT current_read_state.READ_IDLE 
+current_read_state.READ_IDLE 0 0 0 0 
+current_read_state.READ_WAIT 0 0 1 1 
+current_read_state.READ 0 1 0 1 
+current_read_state.READ_POST_WAIT 1 0 0 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_acl_kernel_clk:acl_kernel_clk|altera_pll_reconfig_top:pll_reconfig_0|altera_pll_reconfig_core:NM28_reconfig.reconfig_core.altera_pll_reconfig_core_inst0|operation_address
+Name operation_address.CP_CURRENT_REG operation_address.BWCTRL_REG operation_address.DSM_REG operation_address.DPS_REG operation_address.C_COUNTERS_REG operation_address.M_REG operation_address.N_REG operation_address.000000 operation_address.ANY_DPRIO operation_address.VCO_REG 
+operation_address.000000 0 0 0 0 0 0 0 0 0 0 
+operation_address.N_REG 0 0 0 0 0 0 1 1 0 0 
+operation_address.M_REG 0 0 0 0 0 1 0 1 0 0 
+operation_address.C_COUNTERS_REG 0 0 0 0 1 0 0 1 0 0 
+operation_address.DPS_REG 0 0 0 1 0 0 0 1 0 0 
+operation_address.DSM_REG 0 0 1 0 0 0 0 1 0 0 
+operation_address.BWCTRL_REG 0 1 0 0 0 0 0 1 0 0 
+operation_address.CP_CURRENT_REG 1 0 0 0 0 0 0 1 0 0 
+operation_address.VCO_REG 0 0 0 0 0 0 0 1 0 1 
+operation_address.ANY_DPRIO 0 0 0 0 0 0 0 1 1 0 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_acl_kernel_clk:acl_kernel_clk|altera_pll_reconfig_top:pll_reconfig_0|altera_pll_reconfig_core:NM28_reconfig.reconfig_core.altera_pll_reconfig_core_inst0|current_state
+Name current_state.IDLE current_state.LOCKED current_state.WAIT_ON_LOCK 
+current_state.IDLE 0 0 0 
+current_state.WAIT_ON_LOCK 1 0 1 
+current_state.LOCKED 1 1 0 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_acl_kernel_clk:acl_kernel_clk|altera_pll_reconfig_top:pll_reconfig_0|altera_pll_reconfig_core:NM28_reconfig.reconfig_core.altera_pll_reconfig_core_inst0|dprio_cur_state
+Name dprio_cur_state.DPRIO_DONE dprio_cur_state.TEN dprio_cur_state.NINE dprio_cur_state.EIGHT dprio_cur_state.SEVEN dprio_cur_state.SIX dprio_cur_state.FIVE dprio_cur_state.FOUR dprio_cur_state.THREE dprio_cur_state.TWO dprio_cur_state.ONE dprio_cur_state.DPRIO_IDLE 
+dprio_cur_state.DPRIO_IDLE 0 0 0 0 0 0 0 0 0 0 0 0 
+dprio_cur_state.ONE 0 0 0 0 0 0 0 0 0 0 1 1 
+dprio_cur_state.TWO 0 0 0 0 0 0 0 0 0 1 0 1 
+dprio_cur_state.THREE 0 0 0 0 0 0 0 0 1 0 0 1 
+dprio_cur_state.FOUR 0 0 0 0 0 0 0 1 0 0 0 1 
+dprio_cur_state.FIVE 0 0 0 0 0 0 1 0 0 0 0 1 
+dprio_cur_state.SIX 0 0 0 0 0 1 0 0 0 0 0 1 
+dprio_cur_state.SEVEN 0 0 0 0 1 0 0 0 0 0 0 1 
+dprio_cur_state.EIGHT 0 0 0 1 0 0 0 0 0 0 0 1 
+dprio_cur_state.NINE 0 0 1 0 0 0 0 0 0 0 0 1 
+dprio_cur_state.TEN 0 1 0 0 0 0 0 0 0 0 0 1 
+dprio_cur_state.DPRIO_DONE 1 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_acl_kernel_clk:acl_kernel_clk|altera_pll_reconfig_top:pll_reconfig_0|altera_pll_reconfig_core:NM28_reconfig.reconfig_core.altera_pll_reconfig_core_inst0|dyn_phase_shift:dyn_phase_shift_inst|dps_current_state
+Name dps_current_state.DPS_CHANGED dps_current_state.DPS_WAIT_DPRIO_WRITING dps_current_state.DPS_WAIT_PHASE_EN dps_current_state.DPS_START dps_current_state.DPS_WAIT_PHASE_DONE dps_current_state.DPS_DONE 
+dps_current_state.DPS_DONE 0 0 0 0 0 0 
+dps_current_state.DPS_WAIT_PHASE_DONE 0 0 0 0 1 1 
+dps_current_state.DPS_START 0 0 0 1 0 1 
+dps_current_state.DPS_WAIT_PHASE_EN 0 0 1 0 0 1 
+dps_current_state.DPS_WAIT_DPRIO_WRITING 0 1 0 0 0 1 
+dps_current_state.DPS_CHANGED 1 0 0 0 0 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_acl_kernel_clk:acl_kernel_clk|system_acl_iface_acl_kernel_clk_kernel_pll:kernel_pll|altera_pll:altera_pll_i|dps_extra_kick:dps_extra_inst|dps_current_state
+Name dps_current_state.PHASE_DONE_LOW_0 dps_current_state.PHASE_DONE_LOW_4 dps_current_state.PHASE_DONE_LOW_3 dps_current_state.PHASE_DONE_LOW_2 dps_current_state.PHASE_DONE_LOW_1 dps_current_state.PHASE_DONE_HIGH 
+dps_current_state.PHASE_DONE_HIGH 0 0 0 0 0 0 
+dps_current_state.PHASE_DONE_LOW_1 0 0 0 0 1 1 
+dps_current_state.PHASE_DONE_LOW_2 0 0 0 1 0 1 
+dps_current_state.PHASE_DONE_LOW_3 0 0 1 0 0 1 
+dps_current_state.PHASE_DONE_LOW_4 0 1 0 0 0 1 
+dps_current_state.PHASE_DONE_LOW_0 1 0 0 0 0 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b|system_acl_iface_ddr3a_c0:c0|alt_mem_if_nextgen_ddr3_controller_core:ng0|alt_mem_ddrx_controller_st_top:alt_mem_ddrx_controller_top_inst|alt_mem_ddrx_controller:controller_inst|alt_mem_ddrx_cmd_gen:cmd_gen_inst|ecc_state_sm
+Name ecc_state_sm.FULL_RD ecc_state_sm.0100 ecc_state_sm.FULL_WR ecc_state_sm.PARWR_WR ecc_state_sm.0001 ecc_state_sm.IDLE ecc_state_sm.CORRECT_WR 
+ecc_state_sm.IDLE 0 0 0 0 0 0 0 
+ecc_state_sm.0001 0 0 0 0 1 1 0 
+ecc_state_sm.PARWR_WR 0 0 0 1 0 1 0 
+ecc_state_sm.FULL_WR 0 0 1 0 0 1 0 
+ecc_state_sm.0100 0 1 0 0 0 1 0 
+ecc_state_sm.FULL_RD 1 0 0 0 0 1 0 
+ecc_state_sm.CORRECT_WR 0 0 0 0 0 1 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b|system_acl_iface_ddr3b_s0:s0|rw_manager_ddr3:sequencer_rw_mgr_inst|rw_manager_generic:rw_mgr_inst|state
+Name state.STATE_RW_REFRESH state.STATE_RW_DONE state.STATE_RW_EXEC state.STATE_RW_IDLE state.STATE_RW_RESTORE 
+state.STATE_RW_IDLE 0 0 0 0 0 
+state.STATE_RW_EXEC 0 0 1 1 0 
+state.STATE_RW_DONE 0 1 0 1 0 
+state.STATE_RW_REFRESH 1 0 0 1 0 
+state.STATE_RW_RESTORE 0 0 0 1 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b|system_acl_iface_ddr3b_s0:s0|rw_manager_ddr3:sequencer_rw_mgr_inst|rw_manager_generic:rw_mgr_inst|rw_manager_core:rw_mgr_core_inst|state
+Name state.RW_MGR_STATE_DONE state.RW_MGR_STATE_READING state.RW_MGR_STATE_RUNNING state.RW_MGR_STATE_IDLE 
+state.RW_MGR_STATE_IDLE 0 0 0 0 
+state.RW_MGR_STATE_RUNNING 0 0 1 1 
+state.RW_MGR_STATE_READING 0 1 0 1 
+state.RW_MGR_STATE_DONE 1 0 0 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b|system_acl_iface_ddr3b_s0:s0|sequencer_data_mgr:sequencer_data_mgr_inst|state_avl_curr
+Name state_avl_curr.STATE_AVL_DONE 
+state_avl_curr.STATE_AVL_IDLE 0 
+state_avl_curr.STATE_AVL_DONE 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b|system_acl_iface_ddr3b_s0:s0|sequencer_phy_mgr:sequencer_phy_mgr_inst|state_phy_curr
+Name state_phy_curr.STATE_PHY_DONE 
+state_phy_curr.STATE_PHY_IDLE 0 
+state_phy_curr.STATE_PHY_DONE 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b|system_acl_iface_ddr3b_s0:s0|sequencer_phy_mgr:sequencer_phy_mgr_inst|state_avl_curr
+Name state_avl_curr.STATE_AVL_IDLE state_avl_curr.STATE_AVL_DONE state_avl_curr.STATE_AVL_EXEC 
+state_avl_curr.STATE_AVL_IDLE 0 0 0 
+state_avl_curr.STATE_AVL_EXEC 1 0 1 
+state_avl_curr.STATE_AVL_DONE 1 1 0 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b|system_acl_iface_ddr3b_s0:s0|sequencer_reg_file:sequencer_reg_file_inst|state
+Name state.READ4 state.READ3 state.READ2 state.WRITE2 state.IDLE state.INIT 
+state.INIT 0 0 0 0 0 0 
+state.IDLE 0 0 0 0 1 1 
+state.WRITE2 0 0 0 1 0 1 
+state.READ2 0 0 1 0 0 1 
+state.READ3 0 1 0 0 0 1 
+state.READ4 1 0 0 0 0 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b|system_acl_iface_ddr3b_s0:s0|sequencer_scc_mgr:sequencer_scc_mgr_inst|scc_state_curr
+Name scc_state_curr.STATE_SCC_IDLE scc_state_curr.STATE_SCC_DONE scc_state_curr.STATE_SCC_LOAD 
+scc_state_curr.STATE_SCC_IDLE 0 0 0 
+scc_state_curr.STATE_SCC_LOAD 1 0 1 
+scc_state_curr.STATE_SCC_DONE 1 1 0 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3a:ddr3a|system_acl_iface_ddr3a_c0:c0|alt_mem_if_nextgen_ddr3_controller_core:ng0|alt_mem_ddrx_controller_st_top:alt_mem_ddrx_controller_top_inst|alt_mem_ddrx_controller:controller_inst|alt_mem_ddrx_cmd_gen:cmd_gen_inst|ecc_state_sm
+Name ecc_state_sm.FULL_RD ecc_state_sm.0100 ecc_state_sm.FULL_WR ecc_state_sm.PARWR_WR ecc_state_sm.0001 ecc_state_sm.IDLE ecc_state_sm.CORRECT_WR 
+ecc_state_sm.IDLE 0 0 0 0 0 0 0 
+ecc_state_sm.0001 0 0 0 0 1 1 0 
+ecc_state_sm.PARWR_WR 0 0 0 1 0 1 0 
+ecc_state_sm.FULL_WR 0 0 1 0 0 1 0 
+ecc_state_sm.0100 0 1 0 0 0 1 0 
+ecc_state_sm.FULL_RD 1 0 0 0 0 1 0 
+ecc_state_sm.CORRECT_WR 0 0 0 0 0 1 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3a:ddr3a|system_acl_iface_ddr3a_s0:s0|rw_manager_ddr3:sequencer_rw_mgr_inst|rw_manager_generic:rw_mgr_inst|state
+Name state.STATE_RW_REFRESH state.STATE_RW_DONE state.STATE_RW_EXEC state.STATE_RW_IDLE state.STATE_RW_RESTORE 
+state.STATE_RW_IDLE 0 0 0 0 0 
+state.STATE_RW_EXEC 0 0 1 1 0 
+state.STATE_RW_DONE 0 1 0 1 0 
+state.STATE_RW_REFRESH 1 0 0 1 0 
+state.STATE_RW_RESTORE 0 0 0 1 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3a:ddr3a|system_acl_iface_ddr3a_s0:s0|rw_manager_ddr3:sequencer_rw_mgr_inst|rw_manager_generic:rw_mgr_inst|rw_manager_core:rw_mgr_core_inst|state
+Name state.RW_MGR_STATE_DONE state.RW_MGR_STATE_READING state.RW_MGR_STATE_RUNNING state.RW_MGR_STATE_IDLE 
+state.RW_MGR_STATE_IDLE 0 0 0 0 
+state.RW_MGR_STATE_RUNNING 0 0 1 1 
+state.RW_MGR_STATE_READING 0 1 0 1 
+state.RW_MGR_STATE_DONE 1 0 0 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3a:ddr3a|system_acl_iface_ddr3a_s0:s0|sequencer_data_mgr:sequencer_data_mgr_inst|state_avl_curr
+Name state_avl_curr.STATE_AVL_DONE 
+state_avl_curr.STATE_AVL_IDLE 0 
+state_avl_curr.STATE_AVL_DONE 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3a:ddr3a|system_acl_iface_ddr3a_s0:s0|sequencer_phy_mgr:sequencer_phy_mgr_inst|state_phy_curr
+Name state_phy_curr.STATE_PHY_DONE 
+state_phy_curr.STATE_PHY_IDLE 0 
+state_phy_curr.STATE_PHY_DONE 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3a:ddr3a|system_acl_iface_ddr3a_s0:s0|sequencer_phy_mgr:sequencer_phy_mgr_inst|state_avl_curr
+Name state_avl_curr.STATE_AVL_IDLE state_avl_curr.STATE_AVL_DONE state_avl_curr.STATE_AVL_EXEC 
+state_avl_curr.STATE_AVL_IDLE 0 0 0 
+state_avl_curr.STATE_AVL_EXEC 1 0 1 
+state_avl_curr.STATE_AVL_DONE 1 1 0 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3a:ddr3a|system_acl_iface_ddr3a_s0:s0|sequencer_reg_file:sequencer_reg_file_inst|state
+Name state.READ4 state.READ3 state.READ2 state.WRITE2 state.IDLE state.INIT 
+state.INIT 0 0 0 0 0 0 
+state.IDLE 0 0 0 0 1 1 
+state.WRITE2 0 0 0 1 0 1 
+state.READ2 0 0 1 0 0 1 
+state.READ3 0 1 0 0 0 1 
+state.READ4 1 0 0 0 0 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3a:ddr3a|system_acl_iface_ddr3a_s0:s0|sequencer_scc_mgr:sequencer_scc_mgr_inst|scc_state_curr
+Name scc_state_curr.STATE_SCC_IDLE scc_state_curr.STATE_SCC_DONE scc_state_curr.STATE_SCC_LOAD 
+scc_state_curr.STATE_SCC_IDLE 0 0 0 
+scc_state_curr.STATE_SCC_LOAD 1 0 1 
+scc_state_curr.STATE_SCC_DONE 1 1 0 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|altpcie_sv_hip_avmm_hwtcl:pcie|altpciexpav128_app:avalon_bridge|altpciexpav128_control_register:cntrl_reg|altpciexpav128_cr_avalon:i_avalon|avalon_state_reg
+Name avalon_state_reg.CRA_PIPE avalon_state_reg.CRA_READ_ACK avalon_state_reg.CRA_READ_WAIT avalon_state_reg.CRA_READ_FIRST avalon_state_reg.CRA_WRITE_ACK avalon_state_reg.CRA_IDLE 
+avalon_state_reg.CRA_IDLE 0 0 0 0 0 0 
+avalon_state_reg.CRA_WRITE_ACK 0 0 0 0 1 1 
+avalon_state_reg.CRA_READ_FIRST 0 0 0 1 0 1 
+avalon_state_reg.CRA_READ_WAIT 0 0 1 0 0 1 
+avalon_state_reg.CRA_READ_ACK 0 1 0 0 0 1 
+avalon_state_reg.CRA_PIPE 1 0 0 0 0 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|altpcie_sv_hip_avmm_hwtcl:pcie|altpciexpav128_app:avalon_bridge|altpciexpav128_tx:tx|altpciexpav128_tx_cntrl:tx_cntrl|txrp_state
+Name txrp_state.TXRP_RESET txrp_state.TXRP_WAIT txrp_state.TXRP_STREAM txrp_state.TXRP_FIFO_PREFETCH1 txrp_state.TXRP_FIFO_PREFETCH0 txrp_state.TXRP_IDLE 
+txrp_state.TXRP_IDLE 0 0 0 0 0 0 
+txrp_state.TXRP_FIFO_PREFETCH0 0 0 0 0 1 1 
+txrp_state.TXRP_FIFO_PREFETCH1 0 0 0 1 0 1 
+txrp_state.TXRP_STREAM 0 0 1 0 0 1 
+txrp_state.TXRP_WAIT 0 1 0 0 0 1 
+txrp_state.TXRP_RESET 1 0 0 0 0 1 
+
+State Machine - |top|system:system_inst|system_acl_iface:acl_iface|altpcie_sv_hip_avmm_hwtcl:pcie|altpcie_sv_hip_ast_hwtcl:altera_s5_a2p|altpcie_hip_256_pipen1b:altpcie_hip_256_pipen1b|g2g3_hold_ltssm.hold_state
+Name g2g3_hold_ltssm.hold_state.INACT g2g3_hold_ltssm.hold_state.HOLD_AEQ g2g3_hold_ltssm.hold_state.HOLD 
+g2g3_hold_ltssm.hold_state.INACT 0 0 0 
+g2g3_hold_ltssm.hold_state.HOLD 1 0 1 
+g2g3_hold_ltssm.hold_state.HOLD_AEQ 1 1 0 
