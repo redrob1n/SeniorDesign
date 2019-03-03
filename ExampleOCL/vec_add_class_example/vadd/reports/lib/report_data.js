@@ -141,11 +141,6 @@ var loopsJSON={
   [
     {
       "from":8
-      , "to":5
-    }
-    ,
-    {
-      "from":8
       , "to":4
     }
     ,
@@ -160,18 +155,13 @@ var loopsJSON={
     }
     ,
     {
+      "from":8
+      , "to":5
+    }
+    ,
+    {
       "from":6
       , "to":7
-    }
-    ,
-    {
-      "from":13
-      , "to":5
-    }
-    ,
-    {
-      "from":14
-      , "to":5
     }
     ,
     {
@@ -193,10 +183,20 @@ var loopsJSON={
       "from":6
       , "to":14
     }
+    ,
+    {
+      "from":13
+      , "to":5
+    }
+    ,
+    {
+      "from":14
+      , "to":5
+    }
   ]
   , "fileIndexMap":
   {
-    "/home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd.cl":"1"
+    "/home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd.cl":"1"
   }
 }
 ;var areaJSON={
@@ -299,7 +299,7 @@ var loopsJSON={
                     [
                       [
                         {
-                          "filename":"/home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd.cl"
+                          "filename":"/home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd.cl"
                           , "line":10
                         }
                       ]
@@ -329,7 +329,7 @@ var loopsJSON={
               [
                 [
                   {
-                    "filename":"/home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd.cl"
+                    "filename":"/home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd.cl"
                     , "line":10
                   }
                 ]
@@ -425,4 +425,4 @@ var loopsJSON={
     }
   ]
 }
-;var fileJSON=[{"index":0, "path":"/home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd.cl", "name":"vadd.cl", "content":"#define TILE_WIDTH 256\012\012// kernel program (vector add) \012 __kernel\012   __attribute((reqd_work_group_size(TILE_WIDTH,1,1)))\012   __attribute((num_vector_lanes(4)))\012   void vadd(__global const float *restrict a,\012      __global const float *restrict b, global float *restrict result, const int N) { \012         int id = get_global_id(0); \012         if (id < N) result[id] = a[id] + b[id];\012   }\012"}];
+;var fileJSON=[{"index":0, "path":"/home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd.cl", "name":"vadd.cl", "content":"#define TILE_WIDTH 256\012\012// kernel program (vector add) \012 __kernel\012   __attribute((reqd_work_group_size(TILE_WIDTH,1,1)))\012   __attribute((num_vector_lanes(4)))\012   void vadd(__global const float *restrict a,\012      __global const float *restrict b, global float *restrict result, const int N) { \012         int id = get_global_id(0); \012         if (id < N) result[id] = a[id] + b[id];\012   }\012"}];

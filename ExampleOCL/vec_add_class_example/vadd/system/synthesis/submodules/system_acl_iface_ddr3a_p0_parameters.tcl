@@ -12,7 +12,7 @@ set ::GLOBAL_system_acl_iface_ddr3a_p0_dqs_group_size 8
 set ::GLOBAL_system_acl_iface_ddr3a_p0_number_of_ck_pins 1
 set ::GLOBAL_system_acl_iface_ddr3a_p0_number_of_dm_pins 8
 set ::GLOBAL_system_acl_iface_ddr3a_p0_dqs_delay_chain_length 2
-set ::GLOBAL_system_acl_iface_ddr3a_p0_uniphy_temp_ver_code 1064919136
+set ::GLOBAL_system_acl_iface_ddr3a_p0_uniphy_temp_ver_code 1255044429
 # PLL Parameters
 
 #USER W A R N I N G !

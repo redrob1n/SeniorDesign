@@ -9,15 +9,136 @@ OpenCL SW Info:
 
 OpenCL Device Info:
 
- No devices found supporting OpenCL (return code -1)
+ 1 devices found supporting OpenCL:
 
-oclDeviceQuery, Platform Name = Intel(R) FPGA SDK for OpenCL(TM), Platform Version = OpenCL 1.0 Intel(R) FPGA SDK for OpenCL(TM), Version 16.1, SDK Revision = 7027912, NumDevs = 0
+ ---------------------------------
+ Device de5net_a7 : Terasic's Preferred Board
+ ---------------------------------
+  CL_DEVICE_NAME: 			de5net_a7 : Terasic's Preferred Board
+  CL_DEVICE_VENDOR: 			Terasic Corporation
+  CL_DRIVER_VERSION: 			16.1
+  CL_DEVICE_VERSION: 			OpenCL 1.0 Intel(R) FPGA SDK for OpenCL(TM), Version 16.1
+  CL_DEVICE_TYPE:			CL_DEVICE_TYPE_ACCELERATOR
+  CL_DEVICE_MAX_COMPUTE_UNITS:		1
+  CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS:	3
+  CL_DEVICE_MAX_WORK_ITEM_SIZES:	2147483647 / 2147483647 / 2147483647 
+  CL_DEVICE_MAX_WORK_GROUP_SIZE:	2147483647
+  CL_DEVICE_MAX_CLOCK_FREQUENCY:	1000 MHz
+  CL_DEVICE_ADDRESS_BITS:		64
+  CL_DEVICE_MAX_MEM_ALLOC_SIZE:		4095 MByte
+  CL_DEVICE_GLOBAL_MEM_SIZE:		4096 MByte
+  CL_DEVICE_ERROR_CORRECTION_SUPPORT:	no
+  CL_DEVICE_LOCAL_MEM_TYPE:		local
+  CL_DEVICE_LOCAL_MEM_SIZE:		16 KByte
+  CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE:	1048576 KByte
+  CL_DEVICE_QUEUE_PROPERTIES:		CL_QUEUE_PROFILING_ENABLE
+  CL_DEVICE_IMAGE_SUPPORT:		1
+  CL_DEVICE_MAX_READ_IMAGE_ARGS:	128
+  CL_DEVICE_MAX_WRITE_IMAGE_ARGS:	128
+  CL_DEVICE_SINGLE_FP_CONFIG:		INF-quietNaNs round-to-nearest 
+
+  CL_DEVICE_IMAGE <dim>			2D_MAX_WIDTH	 16384
+					2D_MAX_HEIGHT	 16384
+					3D_MAX_WIDTH	 2048
+					3D_MAX_HEIGHT	 2048
+					3D_MAX_DEPTH	 2048
+
+  CL_DEVICE_EXTENSIONS:			cl_khr_byte_addressable_store
+					cles_khr_int64
+					cl_altera_live_object_tracking
+					cl_altera_compiler_mode
+					cl_khr_icd
+
+  CL_DEVICE_PREFERRED_VECTOR_WIDTH_<t>	CHAR 4, SHORT 2, INT 1, LONG 1, FLOAT 1, DOUBLE 0
+
+
+  ---------------------------------
+  2D Image Formats Supported (34)
+  ---------------------------------
+  #     Channel Order   Channel Type          
+
+  1     CL_R            CL_UNORM_INT8         
+  2     CL_R            CL_UNORM_INT16        
+  3     CL_R            CL_SNORM_INT8         
+  4     CL_R            CL_SNORM_INT16        
+  5     CL_R            CL_SIGNED_INT8        
+  6     CL_R            CL_SIGNED_INT16       
+  7     CL_R            CL_SIGNED_INT32       
+  8     CL_R            CL_UNSIGNED_INT8      
+  9     CL_R            CL_UNSIGNED_INT16     
+  10    CL_R            CL_UNSIGNED_INT32     
+  11    CL_R            CL_FLOAT              
+  12    CL_RG           CL_UNORM_INT8         
+  13    CL_RG           CL_UNORM_INT16        
+  14    CL_RG           CL_SNORM_INT8         
+  15    CL_RG           CL_SNORM_INT16        
+  16    CL_RG           CL_SIGNED_INT8        
+  17    CL_RG           CL_SIGNED_INT16       
+  18    CL_RG           CL_SIGNED_INT32       
+  19    CL_RG           CL_UNSIGNED_INT8      
+  20    CL_RG           CL_UNSIGNED_INT16     
+  21    CL_RG           CL_UNSIGNED_INT32     
+  22    CL_RG           CL_FLOAT              
+  23    CL_RGBA         CL_UNORM_INT8         
+  24    CL_RGBA         CL_UNORM_INT16        
+  25    CL_RGBA         CL_SNORM_INT8         
+  26    CL_RGBA         CL_SNORM_INT16        
+  27    CL_RGBA         CL_SIGNED_INT8        
+  28    CL_RGBA         CL_SIGNED_INT16       
+  29    CL_RGBA         CL_SIGNED_INT32       
+  30    CL_RGBA         CL_UNSIGNED_INT8      
+  31    CL_RGBA         CL_UNSIGNED_INT16     
+  32    CL_RGBA         CL_UNSIGNED_INT32     
+  33    CL_RGBA         CL_FLOAT              
+  34    CL_BGRA         CL_UNORM_INT8         
+
+  ---------------------------------
+  3D Image Formats Supported (34)
+  ---------------------------------
+  #     Channel Order   Channel Type          
+
+  1     CL_R            CL_UNORM_INT8         
+  2     CL_R            CL_UNORM_INT16        
+  3     CL_R            CL_SNORM_INT8         
+  4     CL_R            CL_SNORM_INT16        
+  5     CL_R            CL_SIGNED_INT8        
+  6     CL_R            CL_SIGNED_INT16       
+  7     CL_R            CL_SIGNED_INT32       
+  8     CL_R            CL_UNSIGNED_INT8      
+  9     CL_R            CL_UNSIGNED_INT16     
+  10    CL_R            CL_UNSIGNED_INT32     
+  11    CL_R            CL_FLOAT              
+  12    CL_RG           CL_UNORM_INT8         
+  13    CL_RG           CL_UNORM_INT16        
+  14    CL_RG           CL_SNORM_INT8         
+  15    CL_RG           CL_SNORM_INT16        
+  16    CL_RG           CL_SIGNED_INT8        
+  17    CL_RG           CL_SIGNED_INT16       
+  18    CL_RG           CL_SIGNED_INT32       
+  19    CL_RG           CL_UNSIGNED_INT8      
+  20    CL_RG           CL_UNSIGNED_INT16     
+  21    CL_RG           CL_UNSIGNED_INT32     
+  22    CL_RG           CL_FLOAT              
+  23    CL_RGBA         CL_UNORM_INT8         
+  24    CL_RGBA         CL_UNORM_INT16        
+  25    CL_RGBA         CL_SNORM_INT8         
+  26    CL_RGBA         CL_SNORM_INT16        
+  27    CL_RGBA         CL_SIGNED_INT8        
+  28    CL_RGBA         CL_SIGNED_INT16       
+  29    CL_RGBA         CL_SIGNED_INT32       
+  30    CL_RGBA         CL_UNSIGNED_INT8      
+  31    CL_RGBA         CL_UNSIGNED_INT16     
+  32    CL_RGBA         CL_UNSIGNED_INT32     
+  33    CL_RGBA         CL_FLOAT              
+  34    CL_BGRA         CL_UNORM_INT8         
+
+oclDeviceQuery, Platform Name = Intel(R) FPGA SDK for OpenCL(TM), Platform Version = OpenCL 1.0 Intel(R) FPGA SDK for OpenCL(TM), Version 16.1, SDK Revision = 7027912, NumDevs = 1, Device = de5net_a7 : Terasic's Preferred Board
 
 System Info: 
 
- Local Time/Date =  21:44:54, 01/28/2019
+ Local Time/Date =  20:00:10, 01/31/2019
  CPU Name: Intel(R) Xeon(R) CPU E5-2609 0 @ 2.40GHz 
  # of CPU processors: 8
- Linux version 3.10.0-862.3.2.el7.x86_64 (mockbuild@x86-034.build.eng.bos.redhat.com) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-28) (GCC) ) #1 SMP Tue May 15 18:22:15 EDT 2018
+ Linux version 3.10.0-862.el7.x86_64 (mockbuild@x86-034.build.eng.bos.redhat.com) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-28) (GCC) ) #1 SMP Wed Mar 21 18:14:51 EDT 2018
 
 

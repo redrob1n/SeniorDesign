@@ -1,5 +1,5 @@
 Flow report for top
-Tue Jan 15 16:39:11 2019
+Thu Jan 31 21:59:38 2019
 Quartus Prime Version 16.1.0 Build 196 10/24/2016 SJ Standard Edition
 
 
@@ -41,7 +41,7 @@ agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Flow Summary                                                                      ;
 +---------------------------------+-------------------------------------------------+
-; Flow Status                     ; Successful - Tue Jan 15 16:31:19 2019           ;
+; Flow Status                     ; Successful - Thu Jan 31 21:51:45 2019           ;
 ; Quartus Prime Version           ; 16.1.0 Build 196 10/24/2016 SJ Standard Edition ;
 ; Revision Name                   ; top                                             ;
 ; Top-level Entity Name           ; top                                             ;
@@ -74,7 +74,7 @@ agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 01/15/2019 15:23:20 ;
+; Start date & time ; 01/31/2019 20:40:28 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; top                 ;
 +-------------------+---------------------+
@@ -88,7 +88,7 @@ agreement for further details.
 ; ALLOW_SHIFT_REGISTER_MERGING_ACROSS_HIERARCHIES ; Off                                                             ; Auto          ; --          ; --                         ;
 ; AUTO_GLOBAL_CLOCK                               ; Off                                                             ; On            ; --          ; --                         ;
 ; AUTO_GLOBAL_REGISTER_CONTROLS                   ; Off                                                             ; On            ; --          ; --                         ;
-; COMPILER_SIGNATURE_ID                           ; 159090358384781.154758740047510                                 ; --            ; --          ; --                         ;
+; COMPILER_SIGNATURE_ID                           ; 159090358384780.154898882727511                                 ; --            ; --          ; --                         ;
 ; DISABLE_REGISTER_MERGING_ACROSS_HIERARCHIES     ; On                                                              ; Auto          ; --          ; --                         ;
 ; ECO_REGENERATE_REPORT                           ; On                                                              ; Off           ; --          ; --                         ;
 ; FITTER_EFFORT                                   ; Standard Fit                                                    ; Auto Fit      ; --          ; --                         ;
@@ -131,7 +131,7 @@ agreement for further details.
 ; SEARCH_PATH                                     ; system/synthesis/submodules/system_acl_iface_ddr3a_s0_software/ ; --            ; --          ; --                         ;
 ; SEARCH_PATH                                     ; system/synthesis/submodules/system_acl_iface_ddr3b_s0_software/ ; --            ; --          ; --                         ;
 ; SEARCH_PATH                                     ; /opt/intelFPGA16.1/hld/ip                                       ; --            ; --          ; --                         ;
-; SLD_INFO                                        ; QSYS_NAME system HAS_SOPCINFO 0 GENERATION_ID 1547587188        ; --            ; system      ; --                         ;
+; SLD_INFO                                        ; QSYS_NAME system HAS_SOPCINFO 0 GENERATION_ID 1548988615        ; --            ; system      ; --                         ;
 ; SYNTHESIS_ONLY_QIP                              ; On                                                              ; --            ; --          ; --                         ;
 ; VCCA_GXBL_USER_VOLTAGE                          ; 3.0V                                                            ; --            ; --          ; --                         ;
 ; VCCA_GXBR_USER_VOLTAGE                          ; 3.0V                                                            ; --            ; --          ; --                         ;
@@ -152,15 +152,15 @@ agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:16:49     ; 1.5                     ; 4965 MB             ; 00:18:48                           ;
-; Partition Merge           ; 00:01:26     ; 1.0                     ; 2364 MB             ; 00:01:26                           ;
-; Fitter                    ; 00:29:28     ; 1.3                     ; 8019 MB             ; 00:53:14                           ;
-; Assembler                 ; 00:02:01     ; 1.0                     ; 2254 MB             ; 00:01:59                           ;
-; TimeQuest Timing Analyzer ; 00:07:09     ; 1.4                     ; 3968 MB             ; 00:09:09                           ;
-; MIF/HEX Update            ; 00:00:39     ; 1.0                     ; 2477 MB             ; 00:00:39                           ;
-; Assembler                 ; 00:02:09     ; 1.0                     ; 2268 MB             ; 00:02:08                           ;
-; TimeQuest Timing Analyzer ; 00:07:42     ; 1.1                     ; 3440 MB             ; 00:08:25                           ;
-; Total                     ; 01:07:23     ; --                      ; --                  ; 01:35:48                           ;
+; Analysis & Synthesis      ; 00:17:20     ; 1.1                     ; 4970 MB             ; 00:19:22                           ;
+; Partition Merge           ; 00:01:26     ; 1.0                     ; 2324 MB             ; 00:01:26                           ;
+; Fitter                    ; 00:31:08     ; 1.3                     ; 7992 MB             ; 00:55:39                           ;
+; Assembler                 ; 00:02:11     ; 1.0                     ; 2254 MB             ; 00:02:01                           ;
+; TimeQuest Timing Analyzer ; 00:07:58     ; 1.5                     ; 3972 MB             ; 00:09:23                           ;
+; MIF/HEX Update            ; 00:00:39     ; 1.0                     ; 2468 MB             ; 00:00:38                           ;
+; Assembler                 ; 00:02:10     ; 1.0                     ; 2264 MB             ; 00:02:10                           ;
+; TimeQuest Timing Analyzer ; 00:07:42     ; 1.1                     ; 3443 MB             ; 00:08:25                           ;
+; Total                     ; 01:10:34     ; --                      ; --                  ; 01:39:04                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

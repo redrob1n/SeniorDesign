@@ -39,9 +39,9 @@ Info: Running Quartus Prime Shell
     Info: devices manufactured by Intel and sold by Intel or its 
     Info: authorized distributors.  Please refer to the applicable 
     Info: agreement for further details.
-    Info: Processing started: Tue Jan 15 15:18:33 2019
+    Info: Processing started: Thu Jan 31 20:35:40 2019
 Info: Command: quartus_sh -t /opt/intelFPGA16.1/hld/ip/board/migrate/pciemaximum/pciemaximum.tcl
-Info: Using INI file /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/quartus.ini
+Info: Using INI file /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/quartus.ini
 Info: Auto migration processing the following files: system.qsys acl_iface_system.qsys iface/acl_dma_core.qsys iface/acl_kernel_clk.qsys iface/acl_kernel_interface.qsys iface/acl_dma.qsys
 Info: Attempting to apply fix to system.qsys
 Info: Attempting to apply fix to acl_iface_system.qsys
@@ -52,8 +52,8 @@ Info: Attempting to apply fix to iface/acl_dma.qsys
 Info (23030): Evaluation of Tcl script /opt/intelFPGA16.1/hld/ip/board/migrate/pciemaximum/pciemaximum.tcl was successful
 Info: Quartus Prime Shell was successful. 0 errors, 0 warnings
     Info: Peak virtual memory: 858 megabytes
-    Info: Processing ended: Tue Jan 15 15:18:34 2019
-    Info: Elapsed time: 00:00:01
+    Info: Processing ended: Thu Jan 31 20:35:40 2019
+    Info: Elapsed time: 00:00:00
     Info: Total CPU time (on all processors): 00:00:00
 Successfully Implemented
 ------------------------------
@@ -76,9 +76,9 @@ Info: Running Quartus Prime Shell
     Info: devices manufactured by Intel and sold by Intel or its 
     Info: authorized distributors.  Please refer to the applicable 
     Info: agreement for further details.
-    Info: Processing started: Tue Jan 15 15:18:34 2019
+    Info: Processing started: Thu Jan 31 20:35:41 2019
 Info: Command: quartus_sh -t /opt/intelFPGA16.1/hld/ip/board/migrate/cvpenable/cvpenable.tcl
-Info: Using INI file /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/quartus.ini
+Info: Using INI file /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/quartus.ini
 Info: Auto migration processing the following files: system.qsys acl_iface_system.qsys iface/acl_dma_core.qsys iface/acl_kernel_clk.qsys iface/acl_kernel_interface.qsys iface/acl_dma.qsys
 Info: Attempting to apply fix to system.qsys
 Info: Attempting to apply fix to acl_iface_system.qsys
@@ -88,9 +88,9 @@ Info: Attempting to apply fix to iface/acl_kernel_interface.qsys
 Info: Attempting to apply fix to iface/acl_dma.qsys
 Info (23030): Evaluation of Tcl script /opt/intelFPGA16.1/hld/ip/board/migrate/cvpenable/cvpenable.tcl was successful
 Info: Quartus Prime Shell was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 859 megabytes
-    Info: Processing ended: Tue Jan 15 15:18:35 2019
-    Info: Elapsed time: 00:00:01
+    Info: Peak virtual memory: 858 megabytes
+    Info: Processing ended: Thu Jan 31 20:35:41 2019
+    Info: Elapsed time: 00:00:00
     Info: Total CPU time (on all processors): 00:00:00
 Successfully Implemented
 ------------------------------

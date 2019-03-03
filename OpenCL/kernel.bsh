@@ -1,0 +1,5 @@
+#!/bin/bash
+aoc --board de5net_a7 --1x-clock-for-local-mem --sw-dimm-partition --opt-arg -fp-relaxed=true --opt-arg -fpc=true genetic_algorithm.cl
+
+g++ genetic_algorithm.cpp -fPIC -I/opt/altera14.1/hld/host/include -L/opt/altera14.1/hld/board/terasic/de5net/linux64/lib -L/opt/altera14.1/hld/host/linux64/lib -lalteracl -ldl -lacl_emulator_kernel_rt -lalterahalmmd -lterasic_apb_14.1_mmd -lelf -lrt -lstdc++ -o genetic_algorithm
+

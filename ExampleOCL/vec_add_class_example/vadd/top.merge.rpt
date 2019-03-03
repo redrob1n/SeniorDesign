@@ -1,5 +1,5 @@
 Partition Merge report for top
-Tue Jan 15 15:47:42 2019
+Thu Jan 31 21:05:23 2019
 Quartus Prime Version 16.1.0 Build 196 10/24/2016 SJ Standard Edition
 
 
@@ -42,7 +42,7 @@ agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Partition Merge Summary                                                           ;
 +---------------------------------+-------------------------------------------------+
-; Partition Merge Status          ; Successful - Tue Jan 15 15:47:40 2019           ;
+; Partition Merge Status          ; Successful - Thu Jan 31 21:05:21 2019           ;
 ; Quartus Prime Version           ; 16.1.0 Build 196 10/24/2016 SJ Standard Edition ;
 ; Revision Name                   ; top                                             ;
 ; Top-level Entity Name           ; top                                             ;
@@ -3457,16 +3457,16 @@ Note: Resource usage numbers presented for Partitions containing post-synthesis 
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+---------------------------------------------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------------------------------+
-; Partition Merge INI Usage                                                                                                                          ;
-+---------------------------------------------+------------------------------------------------------------------------------------------------------+
-; Option                                      ; Usage                                                                                                ;
-+---------------------------------------------+------------------------------------------------------------------------------------------------------+
-; Initialization file:                        ; /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/quartus.ini ;
-; skip_hssi_gen3_pcie_hip_cvp_enable_rule     ; on                                                                                                   ;
-; skip_hssi_gen3_pcie_hip_hip_hard_reset_rule ; on                                                                                                   ;
-; skip_hssi_gen3_pcie_hip_hrdrstctrl_en_rule  ; on                                                                                                   ;
-+---------------------------------------------+------------------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------+
+; Partition Merge INI Usage                                                                                                                     ;
++---------------------------------------------+-------------------------------------------------------------------------------------------------+
+; Option                                      ; Usage                                                                                           ;
++---------------------------------------------+-------------------------------------------------------------------------------------------------+
+; Initialization file:                        ; /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/quartus.ini ;
+; skip_hssi_gen3_pcie_hip_cvp_enable_rule     ; on                                                                                              ;
+; skip_hssi_gen3_pcie_hip_hip_hard_reset_rule ; on                                                                                              ;
+; skip_hssi_gen3_pcie_hip_hrdrstctrl_en_rule  ; on                                                                                              ;
++---------------------------------------------+-------------------------------------------------------------------------------------------------+
 
 
 +--------------------------+
@@ -3475,12 +3475,12 @@ Note: Resource usage numbers presented for Partitions containing post-synthesis 
 Info: *******************************************************************
 Info: Running Quartus Prime Partition Merge
     Info: Version 16.1.0 Build 196 10/24/2016 SJ Standard Edition
-    Info: Processing started: Tue Jan 15 15:46:14 2019
+    Info: Processing started: Thu Jan 31 21:03:55 2019
 Info: Command: quartus_cdb --read_settings_files=on --write_settings_files=off top -c top --merge=on
-Info: Using INI file /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/quartus.ini
+Info: Using INI file /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/quartus.ini
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (35007): Using synthesis netlist for partition "Top"
-Info (35006): Using previously generated Fitter netlist for partition "system_acl_iface:acl_iface" File: /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/system/synthesis/system.v Line: 250
+Info (35006): Using previously generated Fitter netlist for partition "system_acl_iface:acl_iface" File: /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/system/synthesis/system.v Line: 250
 Info (35002): Resolved and merged 2 partition(s)
 Warning (16710): Found unconnected port system:system_inst|system_acl_iface:acl_iface|acl_internal_snoop_ready on design partition system_acl_iface:acl_iface -- port will be tied to GND
 Warning (16710): Found unconnected port system:system_inst|system_acl_iface:acl_iface|pcie_hip_ctrl_test_in[1] on design partition system_acl_iface:acl_iface -- port will be tied to GND
@@ -3549,9 +3549,9 @@ Info (21057): Implemented 102566 device resources after synthesis - the final re
     Info (21065): Implemented 17 PLLs
     Info (21066): Implemented 2 delay-locked loops
 Info: Quartus Prime Partition Merge was successful. 0 errors, 55 warnings
-    Info: Peak virtual memory: 2364 megabytes
-    Info: Processing ended: Tue Jan 15 15:47:50 2019
+    Info: Peak virtual memory: 2324 megabytes
+    Info: Processing ended: Thu Jan 31 21:05:31 2019
     Info: Elapsed time: 00:01:36
-    Info: Total CPU time (on all processors): 00:01:36
+    Info: Total CPU time (on all processors): 00:01:35
 
 

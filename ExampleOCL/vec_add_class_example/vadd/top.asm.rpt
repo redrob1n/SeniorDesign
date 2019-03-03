@@ -1,5 +1,5 @@
 Assembler report for top
-Tue Jan 15 16:31:19 2019
+Thu Jan 31 21:51:45 2019
 Quartus Prime Version 16.1.0 Build 196 10/24/2016 SJ Standard Edition
 
 
@@ -39,7 +39,7 @@ agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Tue Jan 15 16:31:19 2019 ;
+; Assembler Status      ; Successful - Thu Jan 31 21:51:45 2019 ;
 ; Revision Name         ; top                                   ;
 ; Top-level Entity Name ; top                                   ;
 ; Family                ; Stratix V                             ;
@@ -116,24 +116,24 @@ agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 16.1.0 Build 196 10/24/2016 SJ Standard Edition
-    Info: Processing started: Tue Jan 15 16:29:10 2019
+    Info: Processing started: Thu Jan 31 21:49:35 2019
 Info: Command: quartus_asm --read_settings_files=on --write_settings_files=off top -c top
-Info: Using INI file /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/quartus.ini
+Info: Using INI file /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/quartus.ini
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
-Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
-Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
-Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
-Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
-Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
-Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
-Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
-Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
-Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/facstaff/wells/.black_hole/gpu/.old_stuff/opencl_altera/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
+Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
+Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
+Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
+Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
+Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
+Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
+Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
+Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
+Warning (15104): Quartus Prime software detected a bonding design. Reconfiguration is not supported for Bonded designs and MIF is not created for this design. File: /home/student/bgl0001/Senior_Design_FPGA/repo/ExampleOCL/vec_add_class_example/vadd/system/synthesis/submodules/system_acl_iface.v Line: 6
 Info (115030): Assembler is generating device programming files
 Info: Quartus Prime Assembler was successful. 0 errors, 10 warnings
-    Info: Peak virtual memory: 2268 megabytes
-    Info: Processing ended: Tue Jan 15 16:31:22 2019
-    Info: Elapsed time: 00:02:12
-    Info: Total CPU time (on all processors): 00:02:11
+    Info: Peak virtual memory: 2264 megabytes
+    Info: Processing ended: Thu Jan 31 21:51:49 2019
+    Info: Elapsed time: 00:02:14
+    Info: Total CPU time (on all processors): 00:02:13
 
 
