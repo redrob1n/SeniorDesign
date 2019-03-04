@@ -1,4 +1,0 @@
-#!/bin/bash
-# add executables at this point in shell script
-./vecadd_ocl 47 
-

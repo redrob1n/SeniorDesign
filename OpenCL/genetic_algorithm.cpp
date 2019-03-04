@@ -5,6 +5,7 @@
 using namespace std;
 #include <iostream>
 #include <stdlib.h>
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -12,9 +13,14 @@ using namespace std;
 // include files
 #include <CL/cl.h>
 
-#define TILE_WIDTH 256
-#define POP_MAX 512
-#define CHROM_MAX 65
+#define TILE_WIDTH      256
+#define POP_MAX         512
+#define CHROM_MAX       65
+#define CHROM_SIZE      64
+#define SEED            347834
+#define CROSS_PROB      0.85
+#define MUT_PROB        0.05      
+
 
 // iceil macro
 // returns an integer ceil value where integer numerator is first parameter
@@ -23,18 +29,11 @@ using namespace std;
 // equivalent to ((num%den!=0) ? num/den+1 : num/den)
 #define iceil(num,den) (num+den-1)/den 
 
-// Basic CPU based vecAdd C = A+B implementation
-// Replaced by FPGA function with identical name
-// (commented out here!)
-/*
-void vecAdd (float *A, float *B, float *C, int n) {
-        int i;
-        for (i=0;i<n;i++) C[i] = A[i] + B[i];
-}
-*/
+void chrom_init(char * chrom, int chrom_size);
+void initialize(int pop_size);
+unsigned char* LoadBinProgramFromFile(const char* fileName, size_t * binary_length);
+void print_city_visit_order(char *chrom, int chrom_size);
 
-#include <stdlib.h>
-#include <stdio.h>
 //=======================================================================
 //  Description: Load OpenCL kernel executable/binary file into a single
 //                                  C type string for compilation
@@ -57,7 +56,7 @@ unsigned char* LoadBinProgramFromFile(const char* fileName,
         if(KernelBin==0) {
                 printf("Malloc Failed!!\n");
                 return (unsigned char *) '\0';
-        }#define POP_MAX 512
+        }
         rewind(fp);
         if (fread((void*)KernelBin, *binary_length, 1, fp) == 0) {
                 printf("Failed to read from \"%s\" file (fread).\n",fileName);
@@ -66,26 +65,14 @@ unsigned char* LoadBinProgramFromFile(const char* fileName,
         fclose(fp);
         return KernelBin;
 }
-////////////////////////////////////////////////////////////
-//Description - Returns random value between 0 and 64(chrome_size) as a
-//    positive integer
-// [RETURN] - num
-////////////////////////////////////////////////////////////
-int rnd_chrom(void)
-{
-    int num;
-    do {
-        num = drand48()*chrom_size;
-    } while (num>=chrom_size);
-    return num;
-}
+
 
 ////////////////////////////////////////////////////////////
 // Initializes the chromosome for the first population by using
 // rnd_chrom()to swap elements (chosen by a random number between 0-64)
 // [ARG1] - character array chrom
 ////////////////////////////////////////////////////////////
-void chrom_init(char * chrom)
+void chrom_init(char * chrom, int chrom_size)
 {
     int index1,index2,temp;
     for (size_t i=0;i<chrom_size;i++)
@@ -96,8 +83,8 @@ void chrom_init(char * chrom)
     /* swap elements */
     for (size_t i=0;i<chrom_size;i++)
     {
-        index1=rnd_chrom();
-        index2=rnd_chrom();
+        do {  index1 = drand48()*chrom_size; } while (index1>=chrom_size);
+        do {  index2 = drand48()*chrom_size; } while (index2>=chrom_size);
         temp = chrom[index1];
         chrom[index1]=chrom[index2];
         chrom[index2]=temp;
@@ -112,18 +99,34 @@ void chrom_init(char * chrom)
 //    (i.e. current_pop[0:64] is chrom1 [65:128] chrom2 etc)
 //    which is offset by 65*i within the population array.
 ////////////////////////////////////////////////////////////
-void initialize(void)
+void initialize(char* pop1, char*pop2, int pop_size)
 {
     //Command Line Hints
     for (size_t i=0;i<pop_size;i++)
     {
-        chrom_init(Cur_pop_chrom(i));
+        chrom_init(pop1+i*CHROM_MAX);
+        chrom_init(pop2+i*CHROM_MAX);
     }
+}
+
+////////////////////////////////////////////////////////////
+// Prints the order of the cities visited
+// [ARG1] - *chrom: A single chromosome represented as an
+//            ordered list of cities
+////////////////////////////////////////////////////////////
+void print_city_visit_order(char *chrom, int chrom_size)
+{
+    for (size_t i=0;i<chrom_size;i++)
+    {
+        cout << "[City " << chrom[i] << "]->"; 
+    }
+    cout << "[City " << chrom_size << "]->[City " << chrom[0]; 
+
 }
 
 int main (int argc, char **argv) {
         int pop_size;
-        int N;
+
         if (argc != 2) {
                 pop_size = POP_MAX;
         }
@@ -131,17 +134,21 @@ int main (int argc, char **argv) {
                 pop_size = atoi(argv[2]);
         }
 
-        N = pop_size*CHROM_MAX;
-
+        int N = pop_size*CHROM_MAX;
+        int size = N*sizeof(char);
+        
+        char parent1[CHROM_MAX];
+        char parent1[CHROM_MAX];
+        char best_member[CHROM_MAX];
+        srand48(seed);
 	char *pop1 = new char[N];        // allocate and initialize host (CPU) memory
 	char *pop2 = new char[N];        // allocate and initialize host (CPU) memory
+        char *current_pop = &pop1[0];
+        char *next_pop = &pop2[0];
 
         cl_mem fp_pop1, fp_pop2;        // pointers to fpga memory
 
-        for(int i = 0; i < N; i++) {
-                pop1[i] = i;
-                pop2[i] = i;
-        }
+        initialize(pop1, pop2, pop_size);
 
         // declare operation error variable -- not used in this example but -- should be used in a real program
         cl_int clerr = CL_SUCCESS,kernerr = CL_SUCCESS;
@@ -160,8 +167,7 @@ int main (int argc, char **argv) {
                 cprops[0] = CL_CONTEXT_PLATFORM;
                 cprops[1] = (cl_context_properties) platforms[i];
                 cprops[2] = 0;
-                OCL_Context=clCreateContextFromType(cprops, CL_DEVICE_TYPE_ACCELERATOR, 
-                        NULL, NULL, &clerr);
+                OCL_Context=clCreateContextFromType(cprops, CL_DEVICE_TYPE_ACCELERATOR, NULL, NULL, &clerr);
                 if (clerr == CL_SUCCESS) break; // stop at first platform that has the Specified type
                 if (i==numPlatforms-1) {
                         printf("No Platform Found!\n");
@@ -170,7 +176,7 @@ int main (int argc, char **argv) {
         }
 
         size_t parmsz;
-        clerr= clGetContextInfo(OCL_Context, CL_CONTEXT_DEVICES, 0, NULL,                 &parmsz);
+        clerr= clGetContextInfo(OCL_Context, CL_CONTEXT_DEVICES, 0, NULL, &parmsz);
 
         // obtain first valid device
         cl_device_id* OCL_Devices= new cl_device_id[parmsz]; 
@@ -185,8 +191,7 @@ int main (int argc, char **argv) {
         ga_bin=LoadBinProgramFromFile("genetic_algorithms.aocx",&CodeBinSize);
 
         cl_program OCL_Program;
-        OCL_Program = clCreateProgramWithBinary(OCL_Context, 1, OCL_Devices, &CodeBinSize, (const unsigned 			char**) &ga_bin, &kernerr, &clerr);
-
+        OCL_Program = clCreateProgramWithBinary(OCL_Context, 1, OCL_Devices, &CodeBinSize, (const unsigned char**) &ga_bin, &kernerr, &clerr);
         if (kernerr != CL_SUCCESS || clerr != CL_SUCCESS) {
                 printf("Cannot Create program from Binary! \n");
                 exit(1);
@@ -200,12 +205,18 @@ int main (int argc, char **argv) {
         cl_kernel OCL_Kernel[1]; // one or more kernels
         OCL_Kernel[0]= clCreateKernel(OCL_Program, "genetic_algorithm", &clerr); 
 
+        // allocate fpga memory for pop1 and pop2 arrays, send pop1 and pop2 to device
+        fp_pop1 = clCreateBuffer(OCL_Context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, size, pop1, NULL);
+        fp_pop2 = clCreateBuffer(OCL_Context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, size, pop2, NULL);
+        
         // place kernel arguments in the command queue
-        clerr= clSetKernelArg(OCL_Kernel[0], 0,sizeof(cl_mem), (void *) &d_A);
+        clerr= clSetKernelArg(OCL_Kernel[0], 0,sizeof(cl_mem), (void *) &fp_pop1);
+        clerr= clSetKernelArg(OCL_Kernel[0], 1,sizeof(cl_mem), (void *) &fp_pop2);
+        clerr= clSetKernelArg(OCL_Kernel[0], 2,sizeof(int), (void *) &N);
 
         // set workgroup size -- make global dimensions a multiple of the workspace
-        size_t cl_DimBlock[1]={TILE_WIDTH},
-                         cl_DimGrid[1]= {iceil(N,TILE_WIDTH)*TILE_WIDTH};
+        size_t cl_DimBlock[1]={TILE_WIDTH};
+        size_t cl_DimGrid[1]= {iceil(N,TILE_WIDTH)*TILE_WIDTH};
 
         cl_event event=NULL;
 
@@ -213,5 +224,17 @@ int main (int argc, char **argv) {
         clerr= clEnqueueNDRangeKernel(OCL_CmdQueue,OCL_Kernel[0], 1, NULL,  cl_DimGrid, cl_DimBlock,0, NULL, &event);
         clerr= clWaitForEvents(1, &event); // wait for kernel to complete
 
-        clReleaseMemObject(d_A);
+        // send C data back to host and print result
+        clEnqueueReadBuffer(OCL_CmdQueue, fp_pop1, CL_TRUE, 0, sie, pop1, 0, NULL, NULL);
+        print_city_visit_order(best_member, pop_size); //THHIS IS WHERE THE ERROR IS
+        
+        // clean up memory
+        free(pop1);
+        free(pop2);        
+        clReleaseMemObject(fp_pop1);
+        clReleaseMemObject(fp_pop2);
 }
+
+
+
+
