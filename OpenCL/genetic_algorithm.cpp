@@ -1,6 +1,6 @@
 // very simple vector add example used in class
-// --everything is in one *.cpp program
-// --no error checking; not a good idea
+// --everything is in one *.cpp *program
+// --no *error checking; not a good idea
 
 using namespace std;
 #include <iostream>
@@ -29,15 +29,16 @@ using namespace std;
 // equivalent to ((num%den!=0) ? num/den+1 : num/den)
 #define iceil(num,den) (num+den-1)/den 
 
-void chrom_init(char * chrom, int chrom_size);
-void initialize(int pop_size);
-unsigned char* LoadBinProgramFromFile(const char* fileName, size_t * binary_length);
-void print_city_visit_order(char *chrom, int chrom_size);
+void chrom_init(char *, int );
+void kernel_init(cl_context*, cl_program*, cl_command_queue* );
+void initialize(int);
+unsigned char* LoadBinProgramFromFile(const char*, size_t *);
+void print_city_visit_order(char *, int );
 
 //=======================================================================
 //  Description: Load OpenCL kernel executable/binary file into a single
 //                                  C type string for compilation
-//                                  this program was compiled offline
+//                                  this *program was compiled offline
 //=======================================================================
 unsigned char* LoadBinProgramFromFile(const char* fileName,
         size_t * binary_length) {
@@ -51,8 +52,7 @@ unsigned char* LoadBinProgramFromFile(const char* fileName,
         }
         fseek(fp, 0, SEEK_END);
         *binary_length = ftell(fp);
-        unsigned char *KernelBin = (unsigned char*) malloc(sizeof(unsigned char)
-                                                                                  * *binary_length);
+        unsigned char *KernelBin = (unsigned char*) malloc(sizeof(unsigned char)* *binary_length);
         if(KernelBin==0) {
                 printf("Malloc Failed!!\n");
                 return (unsigned char *) '\0';
@@ -124,6 +124,64 @@ void print_city_visit_order(char *chrom, int chrom_size)
 
 }
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+void kernel_init(cl_context* context, cl_program* program, cl_command_queue *cmd_queue, cl_int *err)
+{
+
+        // declare operation *error variable -- not used in this example but -- should be used in a real *program
+        *err = CL_SUCCESS;
+        cl_int kernerr = CL_SUCCESS;
+
+        // get valid platform
+        cl_uint numPlatforms;
+        *err = clGetPlatformIDs(0, NULL, &numPlatforms);
+        cl_platform_id *platforms;
+        platforms = new cl_platform_id[numPlatforms];
+        *err = clGetPlatformIDs(numPlatforms, platforms, NULL);
+
+        // set up a FPGA *context
+        *context=NULL; 
+        for (unsigned int i=0;i<numPlatforms;i++) {
+                cl_context_properties cprops[3];
+                cprops[0] = CL_CONTEXT_PLATFORM;
+                cprops[1] = (cl_context_properties) platforms[i];
+                cprops[2] = 0;
+                *context=clCreateContextFromType(cprops, CL_DEVICE_TYPE_ACCELERATOR, NULL, NULL, &*err);
+                if (*err == CL_SUCCESS) break; // stop at first platform that has the Specified type
+                if (i==numPlatforms-1) {
+                        printf("No Platform Found!\n");
+                        break;
+                }
+        }
+
+        size_t parmsz;
+        *err= clGetContextInfo(*context, CL_CONTEXT_DEVICES, 0, NULL, &parmsz);
+
+        // obtain first valid device
+        cl_device_id* OCL_Devices= new cl_device_id[parmsz]; 
+        *err= clGetContextInfo(*context, CL_CONTEXT_DEVICES, parmsz, OCL_Devices, NULL); 
+
+        // create the command queue
+        *cmd_queue=clCreateCommandQueue(*context, OCL_Devices[0], 0, &*err); 
+
+        // Load Precompiled kernel *program 
+        size_t CodeBinSize;
+        unsigned char *ga_bin = NULL;
+        ga_bin=LoadBinProgramFromFile("genetic_algorithms.aocx",&CodeBinSize);
+
+
+        *program = clCreateProgramWithBinary(*context, 1, OCL_Devices, &CodeBinSize, (const unsigned char**) &ga_bin, &kernerr, &*err);
+        if (kernerr != CL_SUCCESS || *err != CL_SUCCESS) {
+                printf("Cannot Create *program from Binary! \n");
+                exit(1);
+        }
+        free(ga_bin);
+        
+        // compile *program
+        *err= clBuildProgram(*program, 1, &OCL_Devices[0], "-cl-mad-enable", NULL, NULL);
+}
+
 int main (int argc, char **argv) {
         int pop_size;
 
@@ -137,10 +195,11 @@ int main (int argc, char **argv) {
         int N = pop_size*CHROM_MAX;
         int size = N*sizeof(char);
         
-        char parent1[CHROM_MAX];
-        char parent2[CHROM_MAX];
-        char best_member[CHROM_MAX];
+        char *parent1 = new char[CHROM_MAX];
+        char *parent2 = new char[CHROM_MAX];
+        char *best_member = new char[CHROM_MAX];
         srand48(SEED);
+        
 	char *pop1 = new char[N];        // allocate and initialize host (CPU) memory
 	char *pop2 = new char[N];        // allocate and initialize host (CPU) memory
         char *current_pop = &pop1[0];
@@ -149,65 +208,21 @@ int main (int argc, char **argv) {
         cl_mem fp_pop1, fp_pop2;        // pointers to fpga memory
 
         initialize(pop1, pop2, pop_size);
-
-        // declare operation error variable -- not used in this example but -- should be used in a real program
-        cl_int clerr = CL_SUCCESS,kernerr = CL_SUCCESS;
-
-        // get valid platform
-        cl_uint numPlatforms;
-        clerr = clGetPlatformIDs(0, NULL, &numPlatforms);
-        cl_platform_id *platforms;
-        platforms = new cl_platform_id[numPlatforms];
-        clerr = clGetPlatformIDs(numPlatforms, platforms, NULL);
-
-        // set up a FPGA context
-        cl_context OCL_Context=NULL; 
-        for (unsigned int i=0;i<numPlatforms;i++) {
-                cl_context_properties cprops[3];
-                cprops[0] = CL_CONTEXT_PLATFORM;
-                cprops[1] = (cl_context_properties) platforms[i];
-                cprops[2] = 0;
-                OCL_Context=clCreateContextFromType(cprops, CL_DEVICE_TYPE_ACCELERATOR, NULL, NULL, &clerr);
-                if (clerr == CL_SUCCESS) break; // stop at first platform that has the Specified type
-                if (i==numPlatforms-1) {
-                        printf("No Platform Found!\n");
-                        break;
-                }
-        }
-
-        size_t parmsz;
-        clerr= clGetContextInfo(OCL_Context, CL_CONTEXT_DEVICES, 0, NULL, &parmsz);
-
-        // obtain first valid device
-        cl_device_id* OCL_Devices= new cl_device_id[parmsz]; 
-        clerr= clGetContextInfo(OCL_Context, CL_CONTEXT_DEVICES, parmsz, OCL_Devices, NULL); 
-
-        // create the command queue
-        cl_command_queue OCL_CmdQueue=clCreateCommandQueue(OCL_Context, OCL_Devices[0], 0, &clerr); 
-
-        // Load Precompiled kernel program 
-        size_t CodeBinSize;
-        unsigned char *ga_bin = NULL;
-        ga_bin=LoadBinProgramFromFile("genetic_algorithms.aocx",&CodeBinSize);
-
-        cl_program OCL_Program;
-        OCL_Program = clCreateProgramWithBinary(OCL_Context, 1, OCL_Devices, &CodeBinSize, (const unsigned char**) &ga_bin, &kernerr, &clerr);
-        if (kernerr != CL_SUCCESS || clerr != CL_SUCCESS) {
-                printf("Cannot Create program from Binary! \n");
-                exit(1);
-        }
-        free(ga_bin);
-
-        // compile program
-        clerr= clBuildProgram(OCL_Program, 1, &OCL_Devices[0], "-cl-mad-enable", NULL, NULL);
-
-        // create kernel from program
+        
+        cl_context OCL_context;
+        cl_program OCL_program;
+        cl_command_queue OCL_CmdQueue;
+        cl_int clerr;
+        
+        kernel_init(&OCL_context, &OCL_program, &OCL_CmdQueue, &clerr);
+        
+        // create kernel from *program
         cl_kernel OCL_Kernel[1]; // one or more kernels
-        OCL_Kernel[0]= clCreateKernel(OCL_Program, "genetic_algorithm", &clerr); 
-
+        OCL_Kernel[0]= clCreateKernel(OCL_program, "genetic_algorithm", &clerr); 
+        
         // allocate fpga memory for pop1 and pop2 arrays, send pop1 and pop2 to device
-        fp_pop1 = clCreateBuffer(OCL_Context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, size, pop1, NULL);
-        fp_pop2 = clCreateBuffer(OCL_Context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, size, pop2, NULL);
+        fp_pop1 = clCreateBuffer(OCL_context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, size, pop1, NULL);
+        fp_pop2 = clCreateBuffer(OCL_context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, size, pop2, NULL);
         
         // place kernel arguments in the command queue
         clerr= clSetKernelArg(OCL_Kernel[0], 0,sizeof(cl_mem), (void *) &fp_pop1);
@@ -226,7 +241,7 @@ int main (int argc, char **argv) {
 
         // send C data back to host and print result
         clEnqueueReadBuffer(OCL_CmdQueue, fp_pop1, CL_TRUE, 0, size, pop1, 0, NULL, NULL);
-        print_city_visit_order(best_member, pop_size); //THHIS IS WHERE THE ERROR IS
+       // print_city_visit_order(best_member, pop_size); //THHIS IS WHERE THE *errOR IS
         
         // clean up memory
         free(pop1);
