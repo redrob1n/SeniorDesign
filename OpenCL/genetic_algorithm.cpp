@@ -104,8 +104,8 @@ void initialize(char* pop1, char*pop2, int pop_size)
     //Command Line Hints
     for (size_t i=0;i<pop_size;i++)
     {
-        chrom_init(pop1+i*CHROM_MAX);
-        chrom_init(pop2+i*CHROM_MAX);
+        chrom_init(pop1+i*CHROM_MAX, CHROM_MAX);
+        chrom_init(pop2+i*CHROM_MAX, CHROM_MAX);
     }
 }
 
@@ -138,9 +138,9 @@ int main (int argc, char **argv) {
         int size = N*sizeof(char);
         
         char parent1[CHROM_MAX];
-        char parent1[CHROM_MAX];
+        char parent2[CHROM_MAX];
         char best_member[CHROM_MAX];
-        srand48(seed);
+        srand48(SEED);
 	char *pop1 = new char[N];        // allocate and initialize host (CPU) memory
 	char *pop2 = new char[N];        // allocate and initialize host (CPU) memory
         char *current_pop = &pop1[0];
@@ -225,7 +225,7 @@ int main (int argc, char **argv) {
         clerr= clWaitForEvents(1, &event); // wait for kernel to complete
 
         // send C data back to host and print result
-        clEnqueueReadBuffer(OCL_CmdQueue, fp_pop1, CL_TRUE, 0, sie, pop1, 0, NULL, NULL);
+        clEnqueueReadBuffer(OCL_CmdQueue, fp_pop1, CL_TRUE, 0, size, pop1, 0, NULL, NULL);
         print_city_visit_order(best_member, pop_size); //THHIS IS WHERE THE ERROR IS
         
         // clean up memory
