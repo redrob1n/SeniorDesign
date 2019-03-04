@@ -124,73 +124,11 @@ void print_city_visit_order(char *chrom, int chrom_size)
 
 }
 
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-void kernel_init(cl_context* context, cl_program* program, cl_command_queue *cmd_queue, cl_int *err)
-{
-
-        // declare operation *error variable -- not used in this example but -- should be used in a real *program
-        *err = CL_SUCCESS;
-        cl_int kernerr = CL_SUCCESS;
-
-        // get valid platform
-        cl_uint numPlatforms;
-        *err = clGetPlatformIDs(0, NULL, &numPlatforms);
-        cl_platform_id *platforms;
-        platforms = new cl_platform_id[numPlatforms];
-        *err = clGetPlatformIDs(numPlatforms, platforms, NULL);
-
-        // set up a FPGA *context
-        *context=NULL; 
-        for (unsigned int i=0;i<numPlatforms;i++) {
-                cl_context_properties cprops[3];
-                cprops[0] = CL_CONTEXT_PLATFORM;
-                cprops[1] = (cl_context_properties) platforms[i];
-                cprops[2] = 0;
-                *context=clCreateContextFromType(cprops, CL_DEVICE_TYPE_ACCELERATOR, NULL, NULL, &*err);
-                if (*err == CL_SUCCESS) break; // stop at first platform that has the Specified type
-                if (i==numPlatforms-1) {
-                        printf("No Platform Found!\n");
-                        break;
-                }
-        }
-
-        size_t parmsz;
-        *err= clGetContextInfo(*context, CL_CONTEXT_DEVICES, 0, NULL, &parmsz);
-
-        // obtain first valid device
-        cl_device_id* OCL_Devices= new cl_device_id[parmsz]; 
-        *err= clGetContextInfo(*context, CL_CONTEXT_DEVICES, parmsz, OCL_Devices, NULL); 
-
-        // create the command queue
-        *cmd_queue=clCreateCommandQueue(*context, OCL_Devices[0], 0, &*err); 
-
-        // Load Precompiled kernel *program 
-        size_t CodeBinSize;
-        unsigned char *ga_bin = NULL;
-        ga_bin=LoadBinProgramFromFile("genetic_algorithms.aocx",&CodeBinSize);
-
-
-        *program = clCreateProgramWithBinary(*context, 1, OCL_Devices, &CodeBinSize, (const unsigned char**) &ga_bin, &kernerr, &*err);
-        if (kernerr != CL_SUCCESS || *err != CL_SUCCESS) {
-                printf("Cannot Create *program from Binary! \n");
-                exit(1);
-        }
-        free(ga_bin);
-        
-        // compile *program
-        *err= clBuildProgram(*program, 1, &OCL_Devices[0], "-cl-mad-enable", NULL, NULL);
-}
-
 int main (int argc, char **argv) {
         int pop_size;
 
-        if (argc != 2) {
-                pop_size = POP_MAX;
-        }
-        else {
-                pop_size = atoi(argv[2]);
-        }
+        if (argc != 2)  pop_size = POP_MAX;
+        else            pop_size = atoi(argv[2]);
 
         int N = pop_size*CHROM_MAX;
         int size = N*sizeof(char);
@@ -248,6 +186,66 @@ int main (int argc, char **argv) {
         free(pop2);        
         clReleaseMemObject(fp_pop1);
         clReleaseMemObject(fp_pop2);
+}
+
+////////////////////////////////////////////////////////////
+// This is the stuff that we are not sure if we are supposed
+// to change or not
+////////////////////////////////////////////////////////////
+void kernel_init(cl_context* context, cl_program* program, cl_command_queue *cmd_queue, cl_int *err)
+{
+
+        // declare operation *error variable -- not used in this example but -- should be used in a real *program
+        *err = CL_SUCCESS;
+        cl_int kernerr = CL_SUCCESS;
+
+        // get valid platform
+        cl_uint numPlatforms;
+        *err = clGetPlatformIDs(0, NULL, &numPlatforms);
+        cl_platform_id *platforms;
+        platforms = new cl_platform_id[numPlatforms];
+        *err = clGetPlatformIDs(numPlatforms, platforms, NULL);
+
+        // set up a FPGA *context
+        *context=NULL; 
+        for (unsigned int i=0;i<numPlatforms;i++) {
+                cl_context_properties cprops[3];
+                cprops[0] = CL_CONTEXT_PLATFORM;
+                cprops[1] = (cl_context_properties) platforms[i];
+                cprops[2] = 0;
+                *context=clCreateContextFromType(cprops, CL_DEVICE_TYPE_ACCELERATOR, NULL, NULL, &*err);
+                if (*err == CL_SUCCESS) break; // stop at first platform that has the Specified type
+                if (i==numPlatforms-1) {
+                        printf("No Platform Found!\n");
+                        break;
+                }
+        }
+
+        size_t parmsz;
+        *err= clGetContextInfo(*context, CL_CONTEXT_DEVICES, 0, NULL, &parmsz);
+
+        // obtain first valid device
+        cl_device_id* OCL_Devices= new cl_device_id[parmsz]; 
+        *err= clGetContextInfo(*context, CL_CONTEXT_DEVICES, parmsz, OCL_Devices, NULL); 
+
+        // create the command queue
+        *cmd_queue=clCreateCommandQueue(*context, OCL_Devices[0], 0, &*err); 
+
+        // Load Precompiled kernel *program 
+        size_t CodeBinSize;
+        unsigned char *ga_bin = NULL;
+        ga_bin=LoadBinProgramFromFile("genetic_algorithms.aocx",&CodeBinSize);
+
+
+        *program = clCreateProgramWithBinary(*context, 1, OCL_Devices, &CodeBinSize, (const unsigned char**) &ga_bin, &kernerr, &*err);
+        if (kernerr != CL_SUCCESS || *err != CL_SUCCESS) {
+                printf("Cannot Create *program from Binary! \n");
+                exit(1);
+        }
+        free(ga_bin);
+        
+        // compile *program
+        *err= clBuildProgram(*program, 1, &OCL_Devices[0], "-cl-mad-enable", NULL, NULL);
 }
 
 
