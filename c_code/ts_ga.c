@@ -443,37 +443,25 @@ int main(int argc, char**argv)
     TIMER_START_EXE;
     TIMER_START_GEN;
 
-    for (size_t i=0;i<num_gen;i++)
-    {
+    for (size_t i=0;i<num_gen;i++){
+
         TIMER_START_GEN;
-        for (size_t j=0;j<pop_size;j++)
-        {
-            /* Selection */
-            get_parent(parent1);
-            if (prob_cross<drand48())
-            {
-                /* Selection */
-                get_parent(parent2);
-                /* Cross over */
-                cross_over(parent1,parent1,parent2);
+        for (size_t j=0;j<pop_size;j++){
+            get_parent(parent1);            /* Selection */
+
+            if (prob_cross<drand48()) {
+                get_parent(parent2);                    /* Selection */
+                cross_over(parent1,parent1,parent2);    /* Cross over */
             }
 
             /* Mutation */
-            if (prob_mut<drand48())
-            {
-                mutate(parent1);
-            }
+            if (prob_mut<drand48())               mutate(parent1);
 
-            for (size_t k=0;k<chrom_size;k++)
-            {
-                Next_pop(j,k) = parent1[k];
-            }
+            for (size_t k=0;k<chrom_size;k++)     Next_pop(j,k) = parent1[k];
 
-            /* Fitness */
-            cur_obj = fit_fun(parent1);
+            cur_obj = fit_fun(parent1); /* Fitness */
 
-            if (cur_obj<min_fit_fun)
-            {
+            if (cur_obj<min_fit_fun) {
                 min_fit_fun=cur_obj;
                 copy_chrom(best_member,parent1);
             }

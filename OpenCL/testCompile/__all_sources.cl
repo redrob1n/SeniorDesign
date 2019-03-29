@@ -1,0 +1,5 @@
+#include "rnd_chrom.cl"
+#include "get_parent.cl"
+#include "copy_chrom.cl"
+#include "fit_fun.cl"
+#include "mutate.cl"

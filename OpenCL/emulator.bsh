@@ -1,0 +1,10 @@
+#!/bin/bash
+
+aoc -march=emulator -v fit_fun.cl -o emulated.aocx
+
+cp emulatorMakeFile/Makefile Makefile
+make
+rm Makefile
+
+env CL_CONTEXT_EMULATOR_DEVICE_INTELFPGA=1 tspEmulatedExe
+
