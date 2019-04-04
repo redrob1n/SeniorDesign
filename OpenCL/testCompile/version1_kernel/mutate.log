@@ -1,1 +1,0 @@
-Compiler Command: aoc -march=emulator rnd_chrom.cl get_parent.cl copy_chrom.cl fit_fun.cl mutate.cl -o version1_kernel.aocx

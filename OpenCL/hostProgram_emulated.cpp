@@ -20,6 +20,7 @@ using namespace std;
 #define SEED            347834
 #define CROSS_PROB      0.85
 #define MUT_PROB        0.05      
+#define MIN_MUT_FUN     1000000
 
 
 // iceil macro
@@ -75,13 +76,13 @@ unsigned char* LoadBinProgramFromFile(const char* fileName,
 void chrom_init(char * chrom, int chrom_size)
 {
     int index1,index2,temp;
-    for (size_t i=0;i<chrom_size;i++)
+    for (int i=0;i<chrom_size;i++)
     {
         chrom[i]=i;
     }
 
     /* swap elements */
-    for (size_t i=0;i<chrom_size;i++)
+    for (int i=0;i<chrom_size;i++)
     {
         do {  index1 = drand48()*chrom_size; } while (index1>=chrom_size);
         do {  index2 = drand48()*chrom_size; } while (index2>=chrom_size);
@@ -102,7 +103,7 @@ void chrom_init(char * chrom, int chrom_size)
 void initialize(char* pop1, char*pop2, int pop_size)
 {
     //Command Line Hints
-    for (size_t i=0;i<pop_size;i++)
+    for (int i=0;i<pop_size;i++)
     {
         chrom_init(pop1+i*CHROM_MAX, CHROM_MAX);
         chrom_init(pop2+i*CHROM_MAX, CHROM_MAX);
@@ -116,7 +117,7 @@ void initialize(char* pop1, char*pop2, int pop_size)
 ////////////////////////////////////////////////////////////
 void print_city_visit_order(char *chrom, int chrom_size)
 {
-    for (size_t i=0;i<chrom_size;i++)
+    for (int i=0;i<chrom_size;i++)
     {
         cout << "[City " << chrom[i] << "]->"; 
     }
@@ -125,13 +126,22 @@ void print_city_visit_order(char *chrom, int chrom_size)
 }
 
 int main (int argc, char **argv) {
-        int pop_size;
+
+        //*****************************************************
+        // Initialize algorithm variables        
+        //*****************************************************
+        int pop_size, chrom_size, num_gen, prob_cross, prob_mut, min_fit_fun;
 
         if (argc != 2)  pop_size = POP_MAX;
         else            pop_size = atoi(argv[2]);
+        chrom_size = CHROM_SIZE;
+        num_gen = NUM_GEN;
+        prob_cross = CROSS_PROB;
+        prob_mut = MUT_PROB;
+        min_fit_fun = MIN_MUT_FUN;
 
         int N = pop_size*CHROM_MAX;
-        int size = N*sizeof(char);
+        int pop_size_bytes = N*sizeof(char);
         
         char *parent1 = new char[CHROM_MAX];
         char *parent2 = new char[CHROM_MAX];
@@ -142,43 +152,60 @@ int main (int argc, char **argv) {
 	char *pop2 = new char[N];        // allocate and initialize host (CPU) memory
         char *current_pop = &pop1[0];
         char *next_pop = &pop2[0];
-
-        cl_mem fp_pop1, fp_pop2;        // pointers to fpga memory
-
-        initialize(pop1, pop2, pop_size);
+        initialize(pop1, pop2, pop_size); //defined above
         
-        cl_context OCL_context;
-        cl_program OCL_program;
-        cl_command_queue OCL_CmdQueue;
+        //*****************************************************
+        // Initialize FPGA Variables, Kernel and Context
+        // Compilel Kernel Program
+        // --kernel_init() gets the platform, sets up context
+        //             creates cmd queue and compiles program
+        //*****************************************************
+        
+        cl_mem fp_pop1, fp_pop2;          // pointers to fpga memory
+        cl_context context;
+        cl_program program;
+        cl_command_queue CmdQueue;    //Command Queue
         cl_int clerr;
-        
-        kernel_init(&OCL_context, &OCL_program, &OCL_CmdQueue, &clerr);
-        
-        // create kernel from *program
-        cl_kernel OCL_Kernel[1]; // one or more kernels
-        OCL_Kernel[0]= clCreateKernel(OCL_program, "emulated", &clerr); 
+        cl_kernel Kernel[1];  
+
+        kernel_init(&context, &program, &CmdQueue, &clerr);
+        Kernel[0]= clCreateKernel(program, "emulated", &clerr); // create kernel from *program
         
         // allocate fpga memory for pop1 and pop2 arrays, send pop1 and pop2 to device
-        fp_pop1 = clCreateBuffer(OCL_context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, size, pop1, NULL);
-        fp_pop2 = clCreateBuffer(OCL_context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, size, pop2, NULL);
-        
+        fp_pop1 = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, pop_size_bytes, pop1, NULL);
+        fp_pop2 = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, pop_size_bytes, pop2, NULL);
+
+        //*****************************************************
+        // Prepare Kernel for Execution
+        //*****************************************************
+                
         // place kernel arguments in the command queue
-        clerr= clSetKernelArg(OCL_Kernel[0], 0,sizeof(cl_mem), (void *) &fp_pop1);
-        clerr= clSetKernelArg(OCL_Kernel[0], 1,sizeof(cl_mem), (void *) &fp_pop2);
-        clerr= clSetKernelArg(OCL_Kernel[0], 2,sizeof(int), (void *) &N);
+        clerr= clSetKernelArg(Kernel[0], 0,sizeof(cl_mem), (void *) &fp_pop1);
+        clerr= clSetKernelArg(Kernel[0], 1,sizeof(cl_mem), (void *) &fp_pop2);
+        clerr= clSetKernelArg(Kernel[0], 2,sizeof(int), (void *) &N);
+        clerr= clSetKernelArg(Kernel[0], 3,sizeof(int), (void *) &N);
+        clerr= clSetKernelArg(Kernel[0], 4,sizeof(int), (void *) &N);
+        clerr= clSetKernelArg(Kernel[0], 5,sizeof(int), (void *) &N);
+        clerr= clSetKernelArg(Kernel[0], 6,sizeof(int), (void *) &N);
+        clerr= clSetKernelArg(Kernel[0], 7,sizeof(int), (void *) &N);
+        clerr= clSetKernelArg(Kernel[0], 8,sizeof(int), (void *) &N);
+        
 
         // set workgroup size -- make global dimensions a multiple of the workspace
         size_t cl_DimBlock[1]={TILE_WIDTH};
         size_t cl_DimGrid[1]= {iceil(N,TILE_WIDTH)*TILE_WIDTH};
 
         cl_event event=NULL;
-
+        
+        //*****************************************************
+        // Execute Genetic
+        //*****************************************************
         // launch kernel
-        clerr= clEnqueueNDRangeKernel(OCL_CmdQueue,OCL_Kernel[0], 1, NULL,  cl_DimGrid, cl_DimBlock,0, NULL, &event);
+        clerr= clEnqueueNDRangeKernel(CmdQueue,Kernel[0], 1, NULL,  cl_DimGrid, cl_DimBlock,0, NULL, &event);
         clerr= clWaitForEvents(1, &event); // wait for kernel to complete
 
         // send C data back to host and print result
-        clEnqueueReadBuffer(OCL_CmdQueue, fp_pop1, CL_TRUE, 0, size, pop1, 0, NULL, NULL);
+        clEnqueueReadBuffer(CmdQueue, fp_pop1, CL_TRUE, 0, size, pop1, 0, NULL, NULL);
        // print_city_visit_order(best_member, pop_size); //THHIS IS WHERE THE *errOR IS
         
         // clean up memory
@@ -186,6 +213,8 @@ int main (int argc, char **argv) {
         free(pop2);        
         clReleaseMemObject(fp_pop1);
         clReleaseMemObject(fp_pop2);
+
+	printf("Execution Complete \n");
 }
 
 ////////////////////////////////////////////////////////////
@@ -225,11 +254,11 @@ void kernel_init(cl_context* context, cl_program* program, cl_command_queue *cmd
         *err= clGetContextInfo(*context, CL_CONTEXT_DEVICES, 0, NULL, &parmsz);
 
         // obtain first valid device
-        cl_device_id* OCL_Devices= new cl_device_id[parmsz]; 
-        *err= clGetContextInfo(*context, CL_CONTEXT_DEVICES, parmsz, OCL_Devices, NULL); 
+        cl_device_id* Devices= new cl_device_id[parmsz]; 
+        *err= clGetContextInfo(*context, CL_CONTEXT_DEVICES, parmsz, Devices, NULL); 
 
         // create the command queue
-        *cmd_queue=clCreateCommandQueue(*context, OCL_Devices[0], 0, &*err); 
+        *cmd_queue=clCreateCommandQueue(*context, Devices[0], 0, &*err); 
 
         // Load Precompiled kernel *program 
         size_t CodeBinSize;
@@ -238,7 +267,7 @@ void kernel_init(cl_context* context, cl_program* program, cl_command_queue *cmd
        // ga_bin=LoadBinProgramFromFile("main/libkernel.so",&CodeBinSize); 
 
 
-        *program = clCreateProgramWithBinary(*context, 1, OCL_Devices, &CodeBinSize, (const unsigned char**) &ga_bin, &kernerr, &*err);
+        *program = clCreateProgramWithBinary(*context, 1, Devices, &CodeBinSize, (const unsigned char**) &ga_bin, &kernerr, &*err);
         switch(*err)
         {
                 case CL_INVALID_CONTEXT: printf("INVALID_CONTEXT\n");break;
@@ -262,7 +291,7 @@ void kernel_init(cl_context* context, cl_program* program, cl_command_queue *cmd
         free(ga_bin);
         
         // compile *program
-        *err= clBuildProgram(*program, 1, &OCL_Devices[0], "-cl-mad-enable", NULL, NULL);
+        *err= clBuildProgram(*program, 1, &Devices[0], "-cl-mad-enable", NULL, NULL);
 }
 
 

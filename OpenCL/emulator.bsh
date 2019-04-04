@@ -1,10 +1,18 @@
 #!/bin/bash
 
-aoc -march=emulator -v fit_fun.cl -o emulated.aocx
+aoc -march=emulator -v fit_fun.cl copy_chrom.cl get_parent.cl cross_over.cl rnd_chrom.cl mutate.cl -o emulated.aocx
 
 cp emulatorMakeFile/Makefile Makefile
 make
 rm Makefile
+rm __all_sources.cl
 
-env CL_CONTEXT_EMULATOR_DEVICE_INTELFPGA=1 tspEmulatedExe
+echo
+echo
+echo
+env CL_CONTEXT_EMULATOR_DEVICE_ALTERA=1 tspEmulatedExe
 
+rm -r obj
+rm -r emulated
+rm emulated.aoc*
+rm tspEmulatedExe
