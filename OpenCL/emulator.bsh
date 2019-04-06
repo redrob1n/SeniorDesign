@@ -1,6 +1,6 @@
 #!/bin/bash
 
-aoc -march=emulator -v fit_fun.cl copy_chrom.cl get_parent.cl cross_over.cl rnd_chrom.cl mutate.cl -o emulated.aocx
+aoc -march=emulator -v single_kernel.cl  -o emulated.aocx
 
 cp emulatorMakeFile/Makefile Makefile
 make

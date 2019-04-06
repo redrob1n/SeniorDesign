@@ -14,13 +14,14 @@ using namespace std;
 #include <CL/cl.h>
 
 #define TILE_WIDTH      256
-#define POP_MAX         512
+#define POP_MAX         50
 #define CHROM_MAX       65
 #define CHROM_SIZE      64
 #define SEED            347834
 #define CROSS_PROB      0.85
 #define MUT_PROB        0.05      
 #define MIN_MUT_FUN     1000000
+#define NUM_GEN         100
 
 
 // iceil macro
@@ -130,28 +131,25 @@ int main (int argc, char **argv) {
         //*****************************************************
         // Initialize algorithm variables        
         //*****************************************************
-        int pop_size, chrom_size, num_gen, prob_cross, prob_mut, min_fit_fun;
-
+        int pop_size, chrom_size, num_gen, prob_cross, prob_mut, min_fit_fun, pop_size_bytes, member_size_bytes;
+        char *best_member = new char[CHROM_MAX];
+        
         if (argc != 2)  pop_size = POP_MAX;
         else            pop_size = atoi(argv[2]);
+        
         chrom_size = CHROM_SIZE;
         num_gen = NUM_GEN;
         prob_cross = CROSS_PROB;
         prob_mut = MUT_PROB;
         min_fit_fun = MIN_MUT_FUN;
-
-        int N = pop_size*CHROM_MAX;
-        int pop_size_bytes = N*sizeof(char);
+        pop_size_bytes = pop_size*(chrom_size+1)*sizeof(char);
+        member_size_bytes = (chrom_size)* sizeof(char);
         
-        char *parent1 = new char[CHROM_MAX];
-        char *parent2 = new char[CHROM_MAX];
-        char *best_member = new char[CHROM_MAX];
         srand48(SEED);
         
-	char *pop1 = new char[N];        // allocate and initialize host (CPU) memory
-	char *pop2 = new char[N];        // allocate and initialize host (CPU) memory
-        char *current_pop = &pop1[0];
-        char *next_pop = &pop2[0];
+	char *pop1 = new char[pop_size*(chrom_size+1)];        // allocate and initialize host (CPU) memory
+	char *pop2 = new char[pop_size*(CHROM_SIZE+1)];        // allocate and initialize host (CPU) memory
+	
         initialize(pop1, pop2, pop_size); //defined above
         
         //*****************************************************
@@ -160,8 +158,8 @@ int main (int argc, char **argv) {
         // --kernel_init() gets the platform, sets up context
         //             creates cmd queue and compiles program
         //*****************************************************
-        
-        cl_mem fp_pop1, fp_pop2;          // pointers to fpga memory
+
+        cl_mem fp_pop1, fp_pop2, fp_best_mem;          // pointers to fpga memory
         cl_context context;
         cl_program program;
         cl_command_queue CmdQueue;    //Command Queue
@@ -171,29 +169,31 @@ int main (int argc, char **argv) {
         kernel_init(&context, &program, &CmdQueue, &clerr);
         Kernel[0]= clCreateKernel(program, "emulated", &clerr); // create kernel from *program
         
-        // allocate fpga memory for pop1 and pop2 arrays, send pop1 and pop2 to device
-        fp_pop1 = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, pop_size_bytes, pop1, NULL);
-        fp_pop2 = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, pop_size_bytes, pop2, NULL);
+        // this initializes all of the variables that will be passed into the FPGA
+        fp_pop1         = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, pop_size_bytes, pop1, NULL);
+        fp_pop2         = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, pop_size_bytes, pop2, NULL);
+        fp_best_mem     = clCreateBuffer(context, CL_MEM_READ_WRITE, member_size_bytes, NULL, NULL);
 
+        
         //*****************************************************
         // Prepare Kernel for Execution
         //*****************************************************
                 
-        // place kernel arguments in the command queue
-        clerr= clSetKernelArg(Kernel[0], 0,sizeof(cl_mem), (void *) &fp_pop1);
-        clerr= clSetKernelArg(Kernel[0], 1,sizeof(cl_mem), (void *) &fp_pop2);
-        clerr= clSetKernelArg(Kernel[0], 2,sizeof(int), (void *) &N);
-        clerr= clSetKernelArg(Kernel[0], 3,sizeof(int), (void *) &N);
-        clerr= clSetKernelArg(Kernel[0], 4,sizeof(int), (void *) &N);
-        clerr= clSetKernelArg(Kernel[0], 5,sizeof(int), (void *) &N);
-        clerr= clSetKernelArg(Kernel[0], 6,sizeof(int), (void *) &N);
-        clerr= clSetKernelArg(Kernel[0], 7,sizeof(int), (void *) &N);
-        clerr= clSetKernelArg(Kernel[0], 8,sizeof(int), (void *) &N);
+        //place kernel arguments in the command queue
+        clerr= clSetKernelArg(Kernel[0], 0,sizeof(int), (void *) &pop_size);
+        clerr= clSetKernelArg(Kernel[0], 1,sizeof(int), (void *) &chrom_size);
+        clerr= clSetKernelArg(Kernel[0], 2,sizeof(int), (void *) &num_gen);
+        clerr= clSetKernelArg(Kernel[0], 3,sizeof(int), (void *) &prob_cross);
+        clerr= clSetKernelArg(Kernel[0], 4,sizeof(int), (void *) &prob_mut);
+        clerr= clSetKernelArg(Kernel[0], 5,sizeof(int), (void *) &min_fit_fun);
+        clerr= clSetKernelArg(Kernel[0], 6,sizeof(cl_mem), (void *) &fp_pop1);
+        clerr= clSetKernelArg(Kernel[0], 7,sizeof(cl_mem), (void *) &fp_pop2);
+        clerr= clSetKernelArg(Kernel[0], 8,sizeof(cl_mem), (void *) &fp_best_mem);
         
 
         // set workgroup size -- make global dimensions a multiple of the workspace
         size_t cl_DimBlock[1]={TILE_WIDTH};
-        size_t cl_DimGrid[1]= {iceil(N,TILE_WIDTH)*TILE_WIDTH};
+        size_t cl_DimGrid[1]= {iceil((size_t)pop_size*((size_t)chrom_size+1),TILE_WIDTH)*TILE_WIDTH};
 
         cl_event event=NULL;
         
@@ -205,15 +205,28 @@ int main (int argc, char **argv) {
         clerr= clWaitForEvents(1, &event); // wait for kernel to complete
 
         // send C data back to host and print result
-        clEnqueueReadBuffer(CmdQueue, fp_pop1, CL_TRUE, 0, size, pop1, 0, NULL, NULL);
+        clEnqueueReadBuffer(CmdQueue, fp_pop2, CL_TRUE, 0, pop_size_bytes, pop2, 0, NULL, NULL);
+        clEnqueueReadBuffer(CmdQueue, fp_best_mem, CL_TRUE, 0, member_size_bytes, best_member, 0, NULL, NULL);
+        for( int i = 0; i < chrom_size; i++) {
+                printf("[%i] = %i \n", i, best_member[i]);
+        }
        // print_city_visit_order(best_member, pop_size); //THHIS IS WHERE THE *errOR IS
-        
-        // clean up memory
+
         free(pop1);
         free(pop2);        
+        free(best_member);   
+
+        clReleaseContext(context);                
+        clReleaseKernel(Kernel[0]);
+        clReleaseProgram(program);
+        clReleaseCommandQueue(CmdQueue);
+        
         clReleaseMemObject(fp_pop1);
         clReleaseMemObject(fp_pop2);
+        clReleaseMemObject(fp_best_mem);
+        
 
+        // clean up memory
 	printf("Execution Complete \n");
 }
 
@@ -242,7 +255,7 @@ void kernel_init(cl_context* context, cl_program* program, cl_command_queue *cmd
                 cprops[0] = CL_CONTEXT_PLATFORM;
                 cprops[1] = (cl_context_properties) platforms[i];
                 cprops[2] = 0;
-                *context=clCreateContextFromType(cprops, CL_DEVICE_TYPE_ACCELERATOR, NULL, NULL, &*err);
+                *context=clCreateContextFromType(cprops, CL_DEVICE_TYPE_ACCELERATOR, NULL, NULL, err);
                 if (*err == CL_SUCCESS) break; // stop at first platform that has the Specified type
                 if (i==numPlatforms-1) {
                         printf("No Platform Found!\n");
@@ -258,7 +271,7 @@ void kernel_init(cl_context* context, cl_program* program, cl_command_queue *cmd
         *err= clGetContextInfo(*context, CL_CONTEXT_DEVICES, parmsz, Devices, NULL); 
 
         // create the command queue
-        *cmd_queue=clCreateCommandQueue(*context, Devices[0], 0, &*err); 
+        *cmd_queue=clCreateCommandQueue(*context, Devices[0], 0, err); 
 
         // Load Precompiled kernel *program 
         size_t CodeBinSize;
