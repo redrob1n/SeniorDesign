@@ -197,19 +197,35 @@ int main (int argc, char **argv) {
 
         cl_event event=NULL;
         
+        int generation = 0;        
         //*****************************************************
         // Execute Genetic
         //*****************************************************
+        while(generation++ < num_gen){
         // launch kernel
-        clerr= clEnqueueNDRangeKernel(CmdQueue,Kernel[0], 1, NULL,  cl_DimGrid, cl_DimBlock,0, NULL, &event);
-        clerr= clWaitForEvents(1, &event); // wait for kernel to complete
+                clerr= clEnqueueNDRangeKernel(CmdQueue,Kernel[0], 1, NULL,  cl_DimGrid, cl_DimBlock,0, NULL, &event);
+                clerr= clWaitForEvents(1, &event); // wait for kernel to complete
 
-        // send C data back to host and print result
-        clEnqueueReadBuffer(CmdQueue, fp_pop2, CL_TRUE, 0, pop_size_bytes, pop2, 0, NULL, NULL);
-        clEnqueueReadBuffer(CmdQueue, fp_best_mem, CL_TRUE, 0, member_size_bytes, best_member, 0, NULL, NULL);
-        for( int i = 0; i < chrom_size; i++) {
-                printf("[%i] = %i \n", i, best_member[i]);
-        }
+                // send C data back to host and print result
+                clEnqueueReadBuffer(CmdQueue, fp_pop2, CL_TRUE, 0, pop_size_bytes, pop2, 0, NULL, NULL);
+                clEnqueueReadBuffer(CmdQueue, fp_best_mem, CL_TRUE, 0, member_size_bytes, best_member, 0, NULL, NULL);
+                
+                for( int i = 0; i < chrom_size; i++) {
+                        printf("[%i] = %i \n", i, best_member[i]);
+                }                
+                
+                clerr= clSetKernelArg(Kernel[0], 0,sizeof(int), (void *) &pop_size);
+                clerr= clSetKernelArg(Kernel[0], 1,sizeof(int), (void *) &chrom_size);
+                clerr= clSetKernelArg(Kernel[0], 2,sizeof(int), (void *) &num_gen);
+                clerr= clSetKernelArg(Kernel[0], 3,sizeof(int), (void *) &prob_cross);
+                clerr= clSetKernelArg(Kernel[0], 4,sizeof(int), (void *) &prob_mut);
+                clerr= clSetKernelArg(Kernel[0], 5,sizeof(int), (void *) &min_fit_fun);
+                clerr= clSetKernelArg(Kernel[0], 6,sizeof(cl_mem), (void *) &fp_pop2); //pop2 becomes the new pop1
+                clerr= clSetKernelArg(Kernel[0], 7,sizeof(cl_mem), (void *) &fp_pop1); //pop1 becomes the new pop2
+                clerr= clSetKernelArg(Kernel[0], 8,sizeof(cl_mem), (void *) &fp_best_mem);
+        }                
+        
+
        // print_city_visit_order(best_member, pop_size); //THHIS IS WHERE THE *errOR IS
 
         free(pop1);

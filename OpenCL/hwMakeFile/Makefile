@@ -24,9 +24,9 @@ LINKFLGS	:= -lOpenCL -lstdc++ -L/opt/altera16.1/hld/board/terasic/de5n35/linux64
 #######################################################
 # Add source files here
 #######################################################
-EXECUTABLE	:= tspExe
+EXECUTABLE	:= tspHwExe
 # C/C++ source files (compiled with gcc / c++)
-CCFILES		:= host_program.cpp
+CCFILES		:= hostProgram_hw.cpp
 
 #######################################################
 # Rules and Targets

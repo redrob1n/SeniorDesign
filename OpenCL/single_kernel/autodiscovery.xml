@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<board name="de5net_a7" vfabric="0" big_endian="0">
+	 <global_mem_config name="" mode="swdimm"/> 
+	<kernel name="genetic_algorithm" csr_addr="0" csr_size="256" work_group_invariant="0" vector_lanes="1" >
+		<work_group size_x="1" size_y="1" size_z="1" max_size="1"/>
+			<argument index="0" type="0" category="0" size="4" >
+			</argument>
+			<argument index="1" type="0" category="0" size="4" >
+			</argument>
+			<argument index="2" type="0" category="0" size="4" >
+			</argument>
+			<argument index="3" type="0" category="0" size="4" >
+			</argument>
+			<argument index="4" type="0" category="0" size="4" >
+			</argument>
+			<argument index="5" type="0" category="0" size="4" >
+			</argument>
+			<argument index="6" type="2" category="1" size="8" >
+			</argument>
+			<argument index="7" type="2" category="1" size="8" >
+			</argument>
+			<argument index="8" type="2" category="1" size="8" >
+			</argument>
+		<local_memory id="6" local_demand="65"/>
+		<local_memory id="7" local_demand="65"/>
+	</kernel>
+</board>

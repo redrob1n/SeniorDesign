@@ -1,0 +1,113 @@
+<KERNEL_LIST>
+	<PROGRAM_GLOBAL_MEM_SIZE value="0" />
+	<KERNEL_BUNDLE name="genetic_algorithm" compute_units="1">
+		<KERNEL name="genetic_algorithm" filename="single_kernel.v" version="1" cosim_name="genetic_algorithm" enable_global_profiling="1" workgroup_invariant="0" has_global_atomics="0" num_vector_lanes="1" num_profiling_signals="0">
+			<RESOURCE_INFO>
+				<ID value="0" />
+			<LOCAL_MEM aspace="6" begin="0" next="128" banks="1" width="8" static_demand="65" num_groups="1" has_atomics="0" ports="2" write_ports="2" rdw_mode="0" repl_fac="1" ic_req_latency="0" ic_rrp_latency="0" ic_wrp_latency="0" req_pipe_interval="0" ret_fanout="0" num_ports_per_phys_mem="2" phys_mem_latency="3" enable="0" ram_mode="0">
+				<BANK id="0">
+					<PORT id="0" register="0" />
+					<PORT id="1" register="0" />
+				</BANK>
+			</LOCAL_MEM>
+			<LOCAL_MEM aspace="7" begin="0" next="128" banks="1" width="8" static_demand="65" num_groups="1" has_atomics="0" ports="2" write_ports="2" rdw_mode="0" repl_fac="1" ic_req_latency="0" ic_rrp_latency="0" ic_wrp_latency="0" req_pipe_interval="0" ret_fanout="0" num_ports_per_phys_mem="2" phys_mem_latency="3" enable="0" ram_mode="1">
+				<BANK id="0">
+					<PORT id="0" register="1" />
+					<PORT id="1" register="0" />
+				</BANK>
+			</LOCAL_MEM>
+				<AGGREGATE_STATIC_LOCAL_MEM_SIZE value="130" />
+				<MAX_WORK_GROUP_SIZE value="1" />
+				<REQUIRED_WORK_GROUP_SIZE x="1" y="1" z="1" />
+			</RESOURCE_INFO>
+			<CONFIGURATION>
+				<INTERFACE port="clock_reset" type="clock"/>
+				<INTERFACE port="cra_irq" type="irq"/>
+				<INTERFACE port="cra" type="slave" cosim_name="" width="64" size="256" latency="0" />
+			</CONFIGURATION>
+			<REQUIREMENTS>
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_data_fifo.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_fifo.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_ll_fifo.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_ll_ram_fifo.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_valid_fifo_counter.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_staging_reg.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_pop.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_pipeline.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_push.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_token_fifo_counter.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_enable_sink.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_top.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_pipelined.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_enabled.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_basic_coalescer.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_simple.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_streaming.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_burst_master.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_bursting_load_stores.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_non_aligned_write.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_read_cache.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_atomic.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_prefetch_block.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_wide_wrapper.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_streaming_prefetch.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/lsu_permute_address.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_aligned_burst_coalesced_lsu.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_full_detector.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_stall_free_sink.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_loop_limiter.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_work_group_limiter.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_kernel_finish_detector.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_task_copy_finish_detector.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_start_signal_chain_element.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_finish_signal_chain_element.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_toggle_detect.v" />
+				<FILE name="$::env(ALTERAOCLSDKROOT)/ip/acl_debug_mem.v" />
+			</REQUIREMENTS>
+			<DATA>
+				<INTERFACE port="local_bb2_ld__inst0" cosim_name="" type="master" width="512" burstwidth="5" pipelined="true" addr_space="__global" aspace_id="1" optype="read" criticality="1073741824" buffer_location="" group_id="0" />
+				<INTERFACE port="local_bb4_st_c0_exe1171_inst0" cosim_name="" type="master" width="512" burstwidth="5" pipelined="true" addr_space="__global" aspace_id="1" optype="write" criticality="1073741824" buffer_location="" group_id="0" />
+				<INTERFACE port="local_bb6_st_c0_exe1182_inst0" cosim_name="" type="master" width="512" burstwidth="5" pipelined="true" addr_space="__global" aspace_id="1" optype="write" criticality="1073741824" buffer_location="" group_id="0" />
+				<INTERFACE port="local_bb2_st__inst0" cosim_name="" type="master" width="8" burstwidth="1" pipelined="true" addr_space="__local" aspace_id="6" optype="write" criticality="1073741824" buffer_location="" group_id="0" >
+						<CONNECTION port="0" bank="-1" />
+				</INTERFACE>
+				<INTERFACE port="local_bb3_ld__inst0" cosim_name="" type="master" width="8" burstwidth="1" pipelined="true" addr_space="__local" aspace_id="6" optype="read" criticality="1073741824" buffer_location="" group_id="0" >
+						<CONNECTION port="1" bank="-1" />
+				</INTERFACE>
+				<INTERFACE port="local_bb3_st__inst0" cosim_name="" type="master" width="8" burstwidth="1" pipelined="true" addr_space="__local" aspace_id="7" optype="write" criticality="1073741824" buffer_location="" group_id="0" >
+						<CONNECTION port="0" bank="-1" />
+				</INTERFACE>
+				<INTERFACE port="local_bb4_ld__inst0" cosim_name="" type="master" width="8" burstwidth="1" pipelined="true" addr_space="__local" aspace_id="7" optype="read" criticality="1073741824" buffer_location="" group_id="0" >
+						<CONNECTION port="1" bank="-1" />
+				</INTERFACE>
+				<INTERFACE port="local_bb6_ld__inst0" cosim_name="" type="master" width="8" burstwidth="1" pipelined="true" addr_space="__local" aspace_id="7" optype="read" criticality="1073741824" buffer_location="" group_id="0" >
+						<CONNECTION port="0" bank="-1" />
+				</INTERFACE>
+			</DATA>
+			<KERNEL_ARGS>
+				<ARGUMENT name="pop_size" cosim_name="" opencl_access_type="ACL_ARG_ADDR_NONE" opencl_type_category="ACL_ARG_BY_VALUE" size="4" type_qualifier="ARG_TYPE_NONE" access_qualifier="ARG_ACCESS_NONE" type_name="int" >
+			</ARGUMENT>
+				<ARGUMENT name="chrom_size" cosim_name="" opencl_access_type="ACL_ARG_ADDR_NONE" opencl_type_category="ACL_ARG_BY_VALUE" size="4" type_qualifier="ARG_TYPE_NONE" access_qualifier="ARG_ACCESS_NONE" type_name="int" >
+			</ARGUMENT>
+				<ARGUMENT name="num_gen" cosim_name="" opencl_access_type="ACL_ARG_ADDR_NONE" opencl_type_category="ACL_ARG_BY_VALUE" size="4" type_qualifier="ARG_TYPE_NONE" access_qualifier="ARG_ACCESS_NONE" type_name="int" >
+			</ARGUMENT>
+				<ARGUMENT name="prob_cross" cosim_name="" opencl_access_type="ACL_ARG_ADDR_NONE" opencl_type_category="ACL_ARG_BY_VALUE" size="4" type_qualifier="ARG_TYPE_NONE" access_qualifier="ARG_ACCESS_NONE" type_name="int" >
+			</ARGUMENT>
+				<ARGUMENT name="prob_mut" cosim_name="" opencl_access_type="ACL_ARG_ADDR_NONE" opencl_type_category="ACL_ARG_BY_VALUE" size="4" type_qualifier="ARG_TYPE_NONE" access_qualifier="ARG_ACCESS_NONE" type_name="int" >
+			</ARGUMENT>
+				<ARGUMENT name="min_fit_fun" cosim_name="" opencl_access_type="ACL_ARG_ADDR_NONE" opencl_type_category="ACL_ARG_BY_VALUE" size="4" type_qualifier="ARG_TYPE_NONE" access_qualifier="ARG_ACCESS_NONE" type_name="int" >
+			</ARGUMENT>
+				<ARGUMENT name="pop1" cosim_name="" opencl_access_type="ACL_ARG_ADDR_GLOBAL" opencl_type_category="ACL_ARG_MEM_OBJ" size="8" type_qualifier="R" access_qualifier="ARG_ACCESS_NONE" type_name="char*" >
+			</ARGUMENT>
+				<ARGUMENT name="pop2" cosim_name="" opencl_access_type="ACL_ARG_ADDR_GLOBAL" opencl_type_category="ACL_ARG_MEM_OBJ" size="8" type_qualifier="R" access_qualifier="ARG_ACCESS_NONE" type_name="char*" >
+			</ARGUMENT>
+				<ARGUMENT name="best_member" cosim_name="" opencl_access_type="ACL_ARG_ADDR_GLOBAL" opencl_type_category="ACL_ARG_MEM_OBJ" size="8" type_qualifier="R" access_qualifier="ARG_ACCESS_NONE" type_name="char*" >
+			</ARGUMENT>
+			</KERNEL_ARGS>
+			<PRINTF_FORMAT_STRINGS>
+			</PRINTF_FORMAT_STRINGS>
+			<PRINTF_INTERFACES>
+			</PRINTF_INTERFACES>
+		</KERNEL>
+	</KERNEL_BUNDLE>
+</KERNEL_LIST>

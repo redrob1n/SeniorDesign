@@ -1,0 +1,22 @@
+<optreport>
+	<loop>
+		<line> (file single_kernel</line>
+		<II>0</II>
+	</loop>
+	<loop>
+		<line> (file single_kernel</line>
+		<II>1</II>
+	</loop>
+	<loop>
+		<line> (file single_kernel</line>
+		<II>1</II>
+	</loop>
+	<loop>
+		<line> (file single_kernel</line>
+		<II>1</II>
+	</loop>
+	<loop>
+		<line> (file single_kernel</line>
+		<II>1</II>
+	</loop>
+</optreport>
