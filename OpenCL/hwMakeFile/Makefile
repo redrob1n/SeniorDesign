@@ -18,8 +18,7 @@ OCLINSTALL	:= /opt/altera16.1/hld
 # INTEL and NVIDIA OCL Flags and Install Directoreis
 #######################################################
 #LINKFLGS	:= -lOpenCL
-LINKFLGS	:= -lOpenCL -lstdc++ -L/opt/altera16.1/hld/board/terasic/de5n35/linux64/lib -L/opt/altera16.1/hld/host/linux64/lib -Wl,--no-as-needed -lalteracl -lacl_emulator_kernel_rt -lalterahalmmd -lelf -lrt -ldl
-
+LINKFLGS := -g -lOpenCL -lstdc++ -L/opt/altera16.1/hld/board/terasic/de5net/linux64/lib -L/opt/altera16.1/hld/host/linux64/lib -Wl,--no-as-needed -lalteracl -lacl_emulator_kernel_rt  -lalterahalmmd -lelf -lrt -ldl
 
 #######################################################
 # Add source files here

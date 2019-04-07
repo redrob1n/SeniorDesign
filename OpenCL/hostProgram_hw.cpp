@@ -128,6 +128,8 @@ void print_city_visit_order(char *chrom, int chrom_size)
 
 int main (int argc, char **argv) {
 
+        int generation = 0; 
+        
         //*****************************************************
         // Initialize algorithm variables        
         //*****************************************************
@@ -137,13 +139,13 @@ int main (int argc, char **argv) {
         if (argc != 2)  pop_size = POP_MAX;
         else            pop_size = atoi(argv[2]);
         
-        chrom_size = CHROM_SIZE;
-        num_gen = NUM_GEN;
-        prob_cross = CROSS_PROB;
-        prob_mut = MUT_PROB;
-        min_fit_fun = MIN_MUT_FUN;
-        pop_size_bytes = pop_size*(chrom_size+1)*sizeof(char);
-        member_size_bytes = (chrom_size)* sizeof(char);
+        chrom_size              = CHROM_SIZE;
+        num_gen                 = NUM_GEN;
+        prob_cross              = CROSS_PROB;
+        prob_mut                = MUT_PROB;
+        min_fit_fun             = MIN_MUT_FUN;
+        pop_size_bytes          = pop_size*(chrom_size+1)*sizeof(char);
+        member_size_bytes       = (chrom_size)* sizeof(char);
         
         srand48(SEED);
         
@@ -158,7 +160,6 @@ int main (int argc, char **argv) {
         // --kernel_init() gets the platform, sets up context
         //             creates cmd queue and compiles program
         //*****************************************************
-
         cl_mem fp_pop1, fp_pop2, fp_best_mem;          // pointers to fpga memory
         cl_context context;
         cl_program program;
@@ -174,7 +175,6 @@ int main (int argc, char **argv) {
         fp_pop2         = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, pop_size_bytes, pop2, NULL);
         fp_best_mem     = clCreateBuffer(context, CL_MEM_READ_WRITE, member_size_bytes, NULL, NULL);
 
-        
         //*****************************************************
         // Prepare Kernel for Execution
         //*****************************************************
@@ -190,19 +190,18 @@ int main (int argc, char **argv) {
         clerr= clSetKernelArg(Kernel[0], 7,sizeof(cl_mem), (void *) &fp_pop2);
         clerr= clSetKernelArg(Kernel[0], 8,sizeof(cl_mem), (void *) &fp_best_mem);
         
-
         // set workgroup size -- make global dimensions a multiple of the workspace
         size_t cl_DimBlock[1]={TILE_WIDTH};
         size_t cl_DimGrid[1]= {iceil((size_t)pop_size*((size_t)chrom_size+1),TILE_WIDTH)*TILE_WIDTH};
 
         cl_event event=NULL;
-        
-        int generation = 0;        
+
         //*****************************************************
         // Execute Genetic
         //*****************************************************
-        while(generation++ < num_gen){
-        // launch kernel
+        while(generation++ < num_gen) {
+        
+                // launch kernel
                 clerr= clEnqueueNDRangeKernel(CmdQueue,Kernel[0], 1, NULL,  cl_DimGrid, cl_DimBlock,0, NULL, &event);
                 clerr= clWaitForEvents(1, &event); // wait for kernel to complete
 
@@ -210,9 +209,7 @@ int main (int argc, char **argv) {
                 clEnqueueReadBuffer(CmdQueue, fp_pop2, CL_TRUE, 0, pop_size_bytes, pop2, 0, NULL, NULL);
                 clEnqueueReadBuffer(CmdQueue, fp_best_mem, CL_TRUE, 0, member_size_bytes, best_member, 0, NULL, NULL);
                 
-                for( int i = 0; i < chrom_size; i++) {
-                        printf("[%i] = %i \n", i, best_member[i]);
-                }                
+                for( int i = 0; i < chrom_size; i++) printf("[%i] = %i \n", i, best_member[i]);
                 
                 clerr= clSetKernelArg(Kernel[0], 0,sizeof(int), (void *) &pop_size);
                 clerr= clSetKernelArg(Kernel[0], 1,sizeof(int), (void *) &chrom_size);
@@ -223,10 +220,7 @@ int main (int argc, char **argv) {
                 clerr= clSetKernelArg(Kernel[0], 6,sizeof(cl_mem), (void *) &fp_pop2); //pop2 becomes the new pop1
                 clerr= clSetKernelArg(Kernel[0], 7,sizeof(cl_mem), (void *) &fp_pop1); //pop1 becomes the new pop2
                 clerr= clSetKernelArg(Kernel[0], 8,sizeof(cl_mem), (void *) &fp_best_mem);
-        }                
-        
-
-       // print_city_visit_order(best_member, pop_size); //THHIS IS WHERE THE *errOR IS
+        }
 
         free(pop1);
         free(pop2);        

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cp hwMakeFile/Makefile Makefile
+make
+rm Makefile
+
+rm -r obj
+./tspHwExe

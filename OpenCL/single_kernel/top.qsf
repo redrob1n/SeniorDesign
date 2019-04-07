@@ -74,7 +74,7 @@ set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_global_assignment -name USE_CONFIGURATION_DEVICE ON
 set_global_assignment -name CRC_ERROR_OPEN_DRAIN ON
-set_global_assignment -name CVP_MODE "SUBSEQUENT CORE RECONFIGURATION"
+set_global_assignment -name CVP_MODE "CORE UPDATE"
 set_global_assignment -name ENABLE_CVP_CONFDONE OFF
 
 set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
@@ -2911,12 +2911,14 @@ set_global_assignment -name LL_SOURCE_REGION "system_acl_iface:acl_iface|system_
 set_global_assignment -name LL_SOURCE_PARTITION_HIERARCHY "system:system_inst|system_acl_iface:acl_iface" -section_id "system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface"
 set_global_assignment -name LL_SOURCE_REGION "system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b" -section_id "system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b"
 set_global_assignment -name LL_SOURCE_PARTITION_HIERARCHY "system:system_inst|system_acl_iface:acl_iface" -section_id "system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b"
-set_instance_assignment -name LL_MEMBER_OF "system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface" -to "system:system_inst|system_acl_iface:acl_iface" -section_id "system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface" -tag "QXP_IMPORT_system_acl_iface:acl_iface"
-set_instance_assignment -name LL_MEMBER_OF "system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b" -to "system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b" -section_id "system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b" -tag "QXP_IMPORT_system_acl_iface:acl_iface"
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
-set_instance_assignment -name PARTITION_HIERARCHY aclif_7eb51 -to "system:system_inst|system_acl_iface:acl_iface" -section_id "system_acl_iface:acl_iface"
 set_global_assignment -name SOURCE_TCL_SCRIPT_FILE ip_include.tcl
 
 set_instance_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION OFF -to *_NO_SHIFT_REG*
 
 set_global_assignment -name VERILOG_CONSTANT_LOOP_LIMIT 10000
+
+set_instance_assignment -name LL_MEMBER_OF "system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b" -to "system:system_inst|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b" -section_id "system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface_ddr3b:ddr3b" -tag "QXP_IMPORT_system_acl_iface:acl_iface"
+set_instance_assignment -name LL_MEMBER_OF "system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface" -to "system:system_inst|system_acl_iface:acl_iface" -section_id "system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface|system_acl_iface:acl_iface" -tag "QXP_IMPORT_system_acl_iface:acl_iface"
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_instance_assignment -name PARTITION_HIERARCHY aclif_7eb51 -to "system:system_inst|system_acl_iface:acl_iface" -section_id "system_acl_iface:acl_iface"
+set_global_assignment -name SDC_FILE top_guaranteed_timing.sdc -tag aocl_guaranteed_timing
