@@ -151,6 +151,14 @@ int main (int argc, char **argv) {
 	char *pop2 = new char[pop_size*(CHROM_SIZE+1)];        // allocate and initialize host (CPU) memory
 	
         initialize(pop1, pop2, pop_size); //defined above
+
+        int num_random_sets = 1000;
+        size_t random_set_size = sizeof(double) * num_random_sets;
+
+        //set of random numbers
+        double *random_set;
+        random_set = new double[num_random_sets]
+        generate_random_set(random_set);
         
         //*****************************************************
         // Initialize FPGA Variables, Kernel and Context
@@ -160,20 +168,23 @@ int main (int argc, char **argv) {
         //*****************************************************
 
         cl_mem fp_pop1, fp_pop2, fp_best_mem;          // pointers to fpga memory
+        cl_mem fp_random_set;
         cl_context context;
         cl_program program;
         cl_command_queue CmdQueue;    //Command Queue
         cl_int clerr;
         cl_kernel Kernel[1];  
 
+        cl_int status;
+
         kernel_init(&context, &program, &CmdQueue, &clerr);
         Kernel[0]= clCreateKernel(program, "emulated", &clerr); // create kernel from *program
         
         // this initializes all of the variables that will be passed into the FPGA
-        fp_pop1         = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, pop_size_bytes, pop1, NULL);
-        fp_pop2         = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, pop_size_bytes, pop2, NULL);
-        fp_best_mem     = clCreateBuffer(context, CL_MEM_READ_WRITE, member_size_bytes, NULL, NULL);
-
+        fp_pop1         = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, pop_size_bytes, pop1, &status);
+        fp_pop2         = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, pop_size_bytes, pop2, &status);
+        fp_best_mem     = clCreateBuffer(context, CL_MEM_READ_WRITE, member_size_bytes, NULL, &status);
+        fp_random_set   = clCreateBuffer(context, CL_MEM_READ_WRITE, random_set_size, &status)
         
         //*****************************************************
         // Prepare Kernel for Execution
@@ -189,6 +200,7 @@ int main (int argc, char **argv) {
         clerr= clSetKernelArg(Kernel[0], 6,sizeof(cl_mem), (void *) &fp_pop1);
         clerr= clSetKernelArg(Kernel[0], 7,sizeof(cl_mem), (void *) &fp_pop2);
         clerr= clSetKernelArg(Kernel[0], 8,sizeof(cl_mem), (void *) &fp_best_mem);
+        clerr= clSetKernelArg(Kenel[0], 9, sizeof(cl_mem), &fp_random_set);
         
 
         // set workgroup size -- make global dimensions a multiple of the workspace
@@ -197,12 +209,21 @@ int main (int argc, char **argv) {
 
         cl_event event=NULL;
         
-        int generation = 0;        
+        int generation = 0;           
+        
         //*****************************************************
         // Execute Genetic
         //*****************************************************
-        while(generation++ < num_gen){
-        // launch kernel
+        while(generation++ < num_gen)
+        {
+
+                //write host data to fpga device buffers
+                clEnqueueWriteBuffer(CmdQueue, fp_pop1, CL_TRUE, 0, pop_size_bytes, (const void*)pop1, 0, NULL, NULL);
+                clEnqueueWriteBuffer(CmdQueue, fp_pop2, CL_TRUE, 0, pop_size_bytes, (const void*)pop2, 0, NULL, NULL);
+                clEnqueueWriteBuffer(CmdQueue, fp_best_mem, CL_TRUE, 0, member_size_bytes, (const void*)best_member, 0, NULL, NULL);
+                clEnqueueWriteBuffer(CmdQueue, fp_random_set, CL_TRUE, 0, random_set_size, (const void*)random_set, 0, NULL, NULL);
+
+                // launch kernel
                 clerr= clEnqueueNDRangeKernel(CmdQueue,Kernel[0], 1, NULL,  cl_DimGrid, cl_DimBlock,0, NULL, &event);
                 clerr= clWaitForEvents(1, &event); // wait for kernel to complete
 
@@ -223,6 +244,9 @@ int main (int argc, char **argv) {
                 clerr= clSetKernelArg(Kernel[0], 6,sizeof(cl_mem), (void *) &fp_pop2); //pop2 becomes the new pop1
                 clerr= clSetKernelArg(Kernel[0], 7,sizeof(cl_mem), (void *) &fp_pop1); //pop1 becomes the new pop2
                 clerr= clSetKernelArg(Kernel[0], 8,sizeof(cl_mem), (void *) &fp_best_mem);
+                clerr= clSetKernelArg(Kenel[0], 9, sizeof(cl_mem), &fp_random_set);
+
+                generate_random_set(random_set);
         }                
         
 
@@ -325,4 +349,10 @@ void kernel_init(cl_context* context, cl_program* program, cl_command_queue *cmd
 
 
 
-
+void generate_random_set(double *array)
+{
+        for(int i = 0; i < num_random_sets; i++)
+        {
+               random_set[i] = drand48() / RAND_MAX;
+        }
+}
